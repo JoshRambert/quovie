@@ -79,6 +79,7 @@ public class FinanceFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        financeData();
     }
 
     @Override
@@ -96,7 +97,7 @@ public class FinanceFragment extends Fragment {
         FinanceRecyclerView.setLayoutManager(FinanceLayoutManager);
 
         //Be sure to add the financeData class
-        financeData();
+        //financeData();
         return rootView;
     }
 

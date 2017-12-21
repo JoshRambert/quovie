@@ -1,11 +1,11 @@
 package com.ebookfrenzy.quovie;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,16 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.app.ProgressDialog;
-import android.widget.ProgressBar;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 
@@ -34,7 +32,7 @@ import java.net.URL;
  * Use the {@link SportsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SportsFragment extends Fragment {
+public class SportsFragment extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -82,30 +80,27 @@ public class SportsFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        /* Inflate the layout for this fragment
-        *  Assign the layout to the rootView and then return the RootView
-        * */
-        View rootView = inflater.inflate(R.layout.fragment_sports, container, false);
-
-        //call the recycler view to the class
-        SportsRecyclerView = (RecyclerView) rootView.findViewById(R.id.SportsRecycler_View);
-        SportsRecyclerView.setHasFixedSize(true);
-
-        //get the linearLayoutManager
-        SportsLayoutManger = new LinearLayoutManager(getActivity());
-        SportsRecyclerView.setLayoutManager(SportsLayoutManger);
-
-        /*
-        Be sure to tadd the GetData class
-         */
         sportsData();
-        return rootView;
     }
+
+   @Override
+   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+       //Inflate the layout for this fragment
+       View rootView = inflater.inflate(R.layout.fragment_sports, container, false);
+
+       SportsRecyclerView = (RecyclerView) rootView.findViewById(R.id.SportsRecycler_View);
+       SportsRecyclerView.setHasFixedSize(true);
+
+       //get the linearLayoutManager
+       SportsLayoutManger = new LinearLayoutManager(getActivity());
+       SportsRecyclerView.setLayoutManager(SportsLayoutManger);
+
+       /*
+       Be sure to add the GetData class
+       */
+       //sportsData();
+       return rootView;
+   }
 
     private void sportsData(){
         class SportsData extends AsyncTask<Void, Void, String> {

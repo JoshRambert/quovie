@@ -84,7 +84,7 @@ public class TechFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
+        techData();
     }
 
     @Override
@@ -105,7 +105,7 @@ public class TechFragment extends Fragment {
         /*
         Be sure to add the GetData Class
          */
-        techData();
+        //techData();
         return rootView;
     }
 
