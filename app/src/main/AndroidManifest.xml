@@ -23,6 +23,7 @@
         </activity>
         <activity
             android:name=".ShowArticle"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
             android:parentActivityName=".QuovieMainActivity">
         </activity>
     </application>

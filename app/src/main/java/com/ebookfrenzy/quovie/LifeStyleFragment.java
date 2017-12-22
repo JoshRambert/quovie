@@ -81,7 +81,6 @@ public class LifeStyleFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        lifeStyleData();
     }
 
     @Override
@@ -99,7 +98,7 @@ public class LifeStyleFragment extends Fragment {
         LSRecyclerView.setLayoutManager(LSLayoutManager);
 
         //Be sure to add te GetData class
-        //lifeStyleData();
+        lifeStyleData();
         return rootView;
     }
 

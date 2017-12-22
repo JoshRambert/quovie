@@ -55,11 +55,12 @@ FinanceFragment.OnFragmentInteractionListener, TechFragment.OnFragmentInteractio
         //locate the tablayout and add tabs to them
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tab_layout);
         //now add tabs to the layout
+
         //TODO: Change the text into icons
-        tabLayout.addTab(tabLayout.newTab().setText("Sports"));
-        tabLayout.addTab(tabLayout.newTab().setText("Technology"));
-        tabLayout.addTab(tabLayout.newTab().setText("Finance"));
-        tabLayout.addTab(tabLayout.newTab().setText("LifeStyle"));
+        tabLayout.addTab(tabLayout.newTab().setIcon(getResources().getDrawable(R.drawable.ic_sports)));
+        tabLayout.addTab(tabLayout.newTab().setIcon(getResources().getDrawable(R.drawable.ic_tech)));
+        tabLayout.addTab(tabLayout.newTab().setIcon(getResources().getDrawable(R.drawable.ic_finance)));
+        tabLayout.addTab(tabLayout.newTab().setIcon(getResources().getDrawable(R.drawable.ic_lifestyle)));
 
         //add the viewPager class to view the different tabs of each user
         final ViewPager viewPager = (ViewPager)findViewById(R.id.pager);
@@ -76,6 +77,7 @@ FinanceFragment.OnFragmentInteractionListener, TechFragment.OnFragmentInteractio
             @Override
             public void onTabSelected(TabLayout.Tab tab){
                 viewPager.setCurrentItem(tab.getPosition());
+                //change the color of the tabs icon that is selected
             }
             //necessary but not used yet
             @Override

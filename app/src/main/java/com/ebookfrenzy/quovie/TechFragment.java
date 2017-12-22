@@ -84,13 +84,10 @@ public class TechFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        techData();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_tech, container, false);
 
@@ -105,9 +102,10 @@ public class TechFragment extends Fragment {
         /*
         Be sure to add the GetData Class
          */
-        //techData();
+        techData();
         return rootView;
     }
+
 
     private void techData() {
         class TechData extends AsyncTask<Void, Void, String> {

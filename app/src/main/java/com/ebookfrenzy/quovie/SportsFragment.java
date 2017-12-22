@@ -80,7 +80,6 @@ public class SportsFragment extends Fragment{
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        sportsData();
     }
 
    @Override
@@ -98,7 +97,7 @@ public class SportsFragment extends Fragment{
        /*
        Be sure to add the GetData class
        */
-       //sportsData();
+       sportsData();
        return rootView;
    }
 
