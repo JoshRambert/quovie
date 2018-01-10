@@ -10,11 +10,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/QuovieThemeDark.NoActionbar">
         <activity
             android:name=".QuovieMainActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Material.Light.DialogWhenLarge.DarkActionBar.NoActionBar">
+            android:theme="@style/QuovieThemeDark.NoActionbar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
