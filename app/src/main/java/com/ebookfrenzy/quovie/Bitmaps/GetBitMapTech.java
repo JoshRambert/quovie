@@ -1,10 +1,13 @@
-package com.ebookfrenzy.quovie;
+package com.ebookfrenzy.quovie.Bitmaps;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+
+import com.ebookfrenzy.quovie.ConfigClass1;
+import com.ebookfrenzy.quovie.TechFragment;
 
 import java.net.URL;
 

@@ -1,4 +1,4 @@
-package com.ebookfrenzy.quovie;
+package com.ebookfrenzy.quovie.Bitmaps;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -6,41 +6,43 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
+import com.ebookfrenzy.quovie.ConfigClass1;
+import com.ebookfrenzy.quovie.FinanceFragment;
+
 import java.net.URL;
 /**
- * Created by Rambo on 7/9/17.
+ * Created by Rambo on 8/4/17.
  */
 
-public class GetBitmap extends AsyncTask<Void,Void,Void> {
+public class GetBitMapFinance extends AsyncTask<Void, Void, Void> {
+
     //create the variables that will be used throughout the class
     private Context context;
     private String[] urls;
     private ProgressDialog loading;
-    private SportsFragment sportsFragment;
+    private FinanceFragment financeFragment;
 
-    public GetBitmap(Context context, SportsFragment sportsFragment, String[] urls){
-        //get the bitmap
+    public GetBitMapFinance(Context context, FinanceFragment financeFragment, String[] urls){
+        //get the Bitmap
         this.context = context;
         this.urls = urls;
-        this.sportsFragment = sportsFragment;
+        this.financeFragment = financeFragment;
     }
 
     //use these methods to execute the displayed data
     @Override
     protected void onPreExecute(){
         super.onPreExecute();
-        loading = ProgressDialog.show(context, "Downloading Image", "Please wait", false, false);
     }
 
     @Override
     protected void onPostExecute(Void aVoid){
         super.onPostExecute(aVoid);
-        loading.dismiss();
-        sportsFragment.showData();
-    }
+        financeFragment.showData();
 
+    }
     @Override
-    protected Void doInBackground(Void...params){
+    protected Void doInBackground(Void... params) {
         for(int i = 0; i<urls.length; i++){
             ConfigClass1.bitmaps[i] = getImage(urls[i]);
         }
@@ -54,7 +56,7 @@ public class GetBitmap extends AsyncTask<Void,Void,Void> {
         try{
             url = new URL(bitmapUrl);
             image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-        } catch(Exception e){}
+        } catch (Exception e){}
         return image;
     }
 }
