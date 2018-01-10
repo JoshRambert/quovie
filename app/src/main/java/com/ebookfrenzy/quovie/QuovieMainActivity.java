@@ -2,6 +2,7 @@ package com.ebookfrenzy.quovie;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -27,17 +28,12 @@ public class QuovieMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, SportsFragment.OnFragmentInteractionListener, LifeStyleFragment.OnFragmentInteractionListener,
 FinanceFragment.OnFragmentInteractionListener, TechFragment.OnFragmentInteractionListener{
 
-    //create the variables that will be used for the Recycler view class
-    private RecyclerView recyclerView;
-    private RecyclerView.LayoutManager layoutManager;
-    private RecyclerView.Adapter adapter;
-
-    private ConfigClass1 config;
-
+    //TODO: Initialize the LOGIN from the google fireBase -- Parse the APIs into the database then display what is in the database to User
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quovie_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -45,11 +41,10 @@ FinanceFragment.OnFragmentInteractionListener, TechFragment.OnFragmentInteractio
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tab_layout);
         //now add tabs to the layout
 
-        //TODO: Change the text into icons
-        tabLayout.addTab(tabLayout.newTab().setIcon(getResources().getDrawable(R.drawable.ic_sports)));
-        tabLayout.addTab(tabLayout.newTab().setIcon(getResources().getDrawable(R.drawable.ic_tech)));
-        tabLayout.addTab(tabLayout.newTab().setIcon(getResources().getDrawable(R.drawable.ic_finance)));
-        tabLayout.addTab(tabLayout.newTab().setIcon(getResources().getDrawable(R.drawable.ic_lifestyle)));
+        tabLayout.addTab(tabLayout.newTab().setText("Sports"));
+        tabLayout.addTab(tabLayout.newTab().setText("Technology"));
+        tabLayout.addTab(tabLayout.newTab().setText("Business"));
+        tabLayout.addTab(tabLayout.newTab().setText("Lifestyle"));
 
         //add the viewPager class to view the different tabs of each user
         final ViewPager viewPager = (ViewPager)findViewById(R.id.pager);
@@ -141,14 +136,8 @@ FinanceFragment.OnFragmentInteractionListener, TechFragment.OnFragmentInteractio
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_manage) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {

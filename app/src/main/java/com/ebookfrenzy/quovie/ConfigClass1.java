@@ -24,7 +24,7 @@ public class ConfigClass1 {
     static String longTech = "https://newsapi.org/v2/everything?sources=techradar&apiKey=b58181b5d3674ec38753867894405f2c\n" + "\n";
 
     static String longLS = "https://newsapi.org/v2/everything?sources=new-york-magazine&apiKey=b58181b5d3674ec38753867894405f2c\n" + "\n";
-    static String shortLS = "https://newsapi.org/v2/top-headlines?sources=reddit-r-all&apiKey=b58181b5d3674ec38753867894405f2c";
+    static String shortLS = "https://newsapi.org/v2/top-headlines?sources=abc-news&apiKey=b58181b5d3674ec38753867894405f2c";
 
     static String longFinance = "https://newsapi.org/v2/everything?sources=the-wall-street-journal&apiKey=b58181b5d3674ec38753867894405f2c\n" + "\n";
     static String shortFinance = "https://newsapi.org/v2/top-headlines?sources=the-wall-street-journal&apiKey=b58181b5d3674ec38753867894405f2c";
