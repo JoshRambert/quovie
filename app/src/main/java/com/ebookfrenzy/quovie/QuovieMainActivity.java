@@ -16,23 +16,12 @@ import android.view.MenuItem;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.graphics.Color;
 
-import android.app.ProgressDialog;
-import android.graphics.Bitmap;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import com.ebookfrenzy.quovie.Fragments.FinanceFragment;
+import com.ebookfrenzy.quovie.Fragments.LifeStyleFragment;
+import com.ebookfrenzy.quovie.Fragments.SportsFragment;
+import com.ebookfrenzy.quovie.Fragments.TechFragment;
 
 public class QuovieMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, SportsFragment.OnFragmentInteractionListener, LifeStyleFragment.OnFragmentInteractionListener,

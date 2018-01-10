@@ -4,10 +4,14 @@ package com.ebookfrenzy.quovie;
  * Created by Rambo on 7/8/17.
  */
 
-import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import com.ebookfrenzy.quovie.Fragments.FinanceFragment;
+import com.ebookfrenzy.quovie.Fragments.LifeStyleFragment;
+import com.ebookfrenzy.quovie.Fragments.SportsFragment;
+import com.ebookfrenzy.quovie.Fragments.TechFragment;
 
 public class TabPagerAdapter extends FragmentPagerAdapter {
     //to count the amount od tabs within the program

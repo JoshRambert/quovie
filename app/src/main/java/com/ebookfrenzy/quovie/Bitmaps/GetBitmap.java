@@ -7,7 +7,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
 import com.ebookfrenzy.quovie.ConfigClass1;
-import com.ebookfrenzy.quovie.SportsFragment;
+import com.ebookfrenzy.quovie.Fragments.SportsFragment;
 
 import java.net.URL;
 /**

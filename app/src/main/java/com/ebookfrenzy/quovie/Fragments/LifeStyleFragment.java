@@ -1,4 +1,4 @@
-package com.ebookfrenzy.quovie;
+package com.ebookfrenzy.quovie.Fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -12,36 +12,39 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ebookfrenzy.quovie.Bitmaps.GetBitMapFinance;
+import com.ebookfrenzy.quovie.Bitmaps.GetBitMapLifestyle;
+import com.ebookfrenzy.quovie.CardAdapter;
+import com.ebookfrenzy.quovie.ConfigClass1;
+import com.ebookfrenzy.quovie.R;
 
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link FinanceFragment.OnFragmentInteractionListener} interface
+ * {@link LifeStyleFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link FinanceFragment#newInstance} factory method to
+ * Use the {@link LifeStyleFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FinanceFragment extends Fragment {
+public class LifeStyleFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    //create the variables that will be used for the recycler view class
-    private RecyclerView FinanceRecyclerView;
-    private RecyclerView.LayoutManager FinanceLayoutManager;
-    private RecyclerView.Adapter FinanceAdapter;
+    //create the variables that will be used throughout the Program
+    private RecyclerView LSRecyclerView;
+    private RecyclerView.LayoutManager LSLayoutManager;
+    private RecyclerView.Adapter LSAdapter;
 
     private ConfigClass1 config;
 
@@ -51,7 +54,7 @@ public class FinanceFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public FinanceFragment() {
+    public LifeStyleFragment() {
         // Required empty public constructor
     }
 
@@ -61,11 +64,11 @@ public class FinanceFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FinanceFragment.
+     * @return A new instance of fragment LifeStyleFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static FinanceFragment newInstance(String param1, String param2) {
-        FinanceFragment fragment = new FinanceFragment();
+    public static LifeStyleFragment newInstance(String param1, String param2) {
+        LifeStyleFragment fragment = new LifeStyleFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -85,32 +88,31 @@ public class FinanceFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //Create a View variable that will be named the rootView and inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_finance, container, false);
+        // Inflate the layout for this fragment
+        View rootView = inflater.inflate(R.layout.fragment_life_style, container, false);
 
         //call the recycler view to the class
-        FinanceRecyclerView = (RecyclerView)rootView.findViewById(R.id.FinanceRecycler_View);
-        FinanceRecyclerView.setHasFixedSize(true);
+        LSRecyclerView = (RecyclerView)rootView.findViewById(R.id.LifeStyleRecycler_View);
+        LSRecyclerView.setHasFixedSize(true);
 
         //get the linearLayoutManager
-        FinanceLayoutManager =  new LinearLayoutManager(getActivity());
-        FinanceRecyclerView.setLayoutManager(FinanceLayoutManager);
+        LSLayoutManager = new LinearLayoutManager(getActivity());
+        LSRecyclerView.setLayoutManager(LSLayoutManager);
 
-        //Be sure to add the financeData class
-        financeData();
+        //Be sure to add te GetData class
+        lifeStyleData();
         return rootView;
     }
 
-
-    //Create the data class for the fragment
-    private void financeData(){
-        class FinanceData extends AsyncTask<Void, Void, String>{
+    private void lifeStyleData(){
+        class LifeStyleData extends AsyncTask<Void, Void, String>{
             ProgressDialog progressDialog;
 
             @Override
-            protected void onPreExecute(){
+            protected  void onPreExecute(){
                 super.onPreExecute();
-                progressDialog = ProgressDialog.show(getActivity(), "Fetching Data", "Please wait", false, false);
+                progressDialog = ProgressDialog.show(getActivity(), "Fetching Data", "Please wait", false);
+
             }
 
             @Override
@@ -120,12 +122,11 @@ public class FinanceFragment extends Fragment {
                 parseJSON(s);
             }
 
-            //Obtain the API from off of the Internet
             @Override
             protected String doInBackground(Void... params) {
                 BufferedReader br = null;
                 try{
-                    URL url = new URL(ConfigClass1.GET_FINANCE);
+                    URL url = new URL(ConfigClass1.GET_LIFESTYLE);
                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
                     StringBuilder sb = new StringBuilder();
 
@@ -141,15 +142,14 @@ public class FinanceFragment extends Fragment {
                 }
             }
         }
-
-        FinanceData fd = new FinanceData();
-        fd.execute();
+        LifeStyleData ld = new LifeStyleData();
+        ld.execute();
     }
 
     public void showData(){
         //set the adapter to the recycler adapter
-        FinanceAdapter = new CardAdapter(ConfigClass1.website, ConfigClass1.titles, ConfigClass1.urls, ConfigClass1.bitmaps, ConfigClass1.content);
-        FinanceRecyclerView.setAdapter(FinanceAdapter);
+        LSAdapter = new CardAdapter(ConfigClass1.website, ConfigClass1.titles, ConfigClass1.urls, ConfigClass1.bitmaps, ConfigClass1.content);
+        LSRecyclerView.setAdapter(LSAdapter);
     }
 
     private void parseJSON(String json){
@@ -162,24 +162,24 @@ public class FinanceFragment extends Fragment {
             for (int i = 0; i < array.length(); i++){
                 JSONObject j = array.getJSONObject(i);
                 ConfigClass1.titles[i] = getTitle(j);
-                ConfigClass1.urls[i] = getUrl(j);
+                ConfigClass1.urls[i] = getURL(j);
                 ConfigClass1.content[i] = getContent(j);
-                ConfigClass1.website[i] = getWebSite(j);
+                ConfigClass1.website[i] = getWebsite(j);
             }
-        } catch(Exception e){
+        } catch (JSONException e){
             e.printStackTrace();
         }
 
-        GetBitMapFinance gb = new GetBitMapFinance(getActivity(), this, ConfigClass1.urls);
+        GetBitMapLifestyle gb = new GetBitMapLifestyle(getActivity(), this, ConfigClass1.urls);
         gb.execute();
     }
 
     /**
-     * Call the methods that get the JSONObjects from the array
+     * Call the methods that ill get the JSONObjects from the array
      * @param
      */
 
-    private String getWebSite(JSONObject j){
+    private String getWebsite(JSONObject j){
         String webSite = null;
         try{
             webSite = j.getString(ConfigClass1.TAG_JSON_WEBSITE);
@@ -193,32 +193,31 @@ public class FinanceFragment extends Fragment {
         String title = null;
         try{
             title = j.getString(ConfigClass1.TAG_IMAGE_TITLE);
-        } catch (JSONException e){
+        }catch (JSONException e){
             e.printStackTrace();
         }
         return title;
     }
 
-    private String getUrl(JSONObject j){
+    private String getURL(JSONObject j){
         String url = null;
         try{
             url = j.getString(ConfigClass1.TAG_IMAGE_URL);
-        } catch (JSONException e){
+        } catch(JSONException e){
             e.printStackTrace();
         }
         return url;
     }
 
-    private String getContent(JSONObject j){
+    private String getContent(JSONObject j) {
         String content = null;
-        try{
+        try {
             content = j.getString(ConfigClass1.TAG_JSON_CONTENT);
-        } catch(JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return content;
     }
-
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

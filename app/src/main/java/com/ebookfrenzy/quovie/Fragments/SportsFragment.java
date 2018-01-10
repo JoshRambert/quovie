@@ -1,4 +1,4 @@
-package com.ebookfrenzy.quovie;
+package com.ebookfrenzy.quovie.Fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -13,7 +13,10 @@ import android.view.ViewGroup;
 
 import android.app.ProgressDialog;
 
-import com.ebookfrenzy.quovie.Bitmaps.GetBitMapTech;
+import com.ebookfrenzy.quovie.Bitmaps.GetBitmap;
+import com.ebookfrenzy.quovie.CardAdapter;
+import com.ebookfrenzy.quovie.ConfigClass1;
+import com.ebookfrenzy.quovie.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,21 +31,21 @@ import java.net.URL;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link TechFragment.OnFragmentInteractionListener} interface
+ * {@link SportsFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link TechFragment#newInstance} factory method to
+ * Use the {@link SportsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TechFragment extends Fragment {
+public class SportsFragment extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    //create the variables that will be used for the Recycler view Class
-    private RecyclerView TechRecyclerView;
-    private RecyclerView.LayoutManager TechLayoutManager;
-    private RecyclerView.Adapter TechAdapter;
+    //create the variables thay will be used for the recycler view Class
+    private RecyclerView SportsRecyclerView;
+    private RecyclerView.LayoutManager SportsLayoutManger;
+    private RecyclerView.Adapter SportsAdapter;
 
     private ConfigClass1 config;
 
@@ -52,7 +55,7 @@ public class TechFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public TechFragment() {
+    public SportsFragment() {
         // Required empty public constructor
     }
 
@@ -62,11 +65,11 @@ public class TechFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment TechFragment.
+     * @return A new instance of fragment SportsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static TechFragment newInstance(String param1, String param2) {
-        TechFragment fragment = new TechFragment();
+    public static SportsFragment newInstance(String param1, String param2) {
+        SportsFragment fragment = new SportsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -83,39 +86,37 @@ public class TechFragment extends Fragment {
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_tech, container, false);
+   @Override
+   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+       //Inflate the layout for this fragment
+       View rootView = inflater.inflate(R.layout.fragment_sports, container, false);
 
-        //call the recycler view to the class
-        TechRecyclerView = (RecyclerView) rootView.findViewById(R.id.TechRecycler_View);
-        TechRecyclerView.setHasFixedSize(true);
+       SportsRecyclerView = (RecyclerView) rootView.findViewById(R.id.SportsRecycler_View);
+       SportsRecyclerView.setHasFixedSize(true);
 
-        //get the linearLayoutManager
-        TechLayoutManager = new LinearLayoutManager(getActivity());
-        TechRecyclerView.setLayoutManager(TechLayoutManager);
+       //get the linearLayoutManager
+       SportsLayoutManger = new LinearLayoutManager(getActivity());
+       SportsRecyclerView.setLayoutManager(SportsLayoutManger);
 
-        /*
-        Be sure to add the GetData Class
-         */
-        techData();
-        return rootView;
-    }
+       /*
+       Be sure to add the GetData class
+       */
+       sportsData();
+       return rootView;
+   }
 
-
-    private void techData() {
-        class TechData extends AsyncTask<Void, Void, String> {
+    private void sportsData(){
+        class SportsData extends AsyncTask<Void, Void, String> {
             ProgressDialog progressDialog;
 
             @Override
-            protected void onPreExecute() {
+            protected void onPreExecute(){
                 super.onPreExecute();
                 progressDialog = ProgressDialog.show(getActivity(), "Fetching Data", "Please wait", false);
             }
 
             @Override
-            protected void onPostExecute(String s) {
+            protected void onPostExecute(String s){
                 super.onPostExecute(s);
                 progressDialog.dismiss();
                 parseJSON(s);
@@ -124,58 +125,58 @@ public class TechFragment extends Fragment {
             @Override
             protected String doInBackground(Void... params) {
                 BufferedReader br = null;
-                try {
-                    URL url = new URL(ConfigClass1.GET_TECH);
+                try{
+                    URL url = new URL(ConfigClass1.GET_SPORTS);
                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
                     StringBuilder sb = new StringBuilder();
 
                     br = new BufferedReader(new InputStreamReader(con.getInputStream()));
 
                     String json;
-                    while ((json = br.readLine()) != null) {
-                        sb.append(json + "\n");
+                    while((json = br.readLine()) != null){
+                        sb.append(json +"\n");
                     }
                     return sb.toString().trim();
-                } catch (Exception e) {
+                } catch (Exception e){
                     return null;
                 }
             }
         }
-        TechData td = new TechData();
-        td.execute();
+        SportsData sd = new SportsData();
+        sd.execute();
     }
 
     public void showData(){
         //set the adapter to the recycler adapter
-        TechAdapter = new CardAdapter(ConfigClass1.website, ConfigClass1.titles, ConfigClass1.urls, ConfigClass1.bitmaps, ConfigClass1.content);
-        TechRecyclerView.setAdapter(TechAdapter);
+        SportsAdapter = new CardAdapter(ConfigClass1.website, ConfigClass1.titles, ConfigClass1.urls, ConfigClass1.bitmaps, ConfigClass1.content);
+        SportsRecyclerView.setAdapter(SportsAdapter);
     }
 
     private void parseJSON(String json){
-        try{
+        try {
             JSONObject jsonObject = new JSONObject(json);
             JSONArray array = jsonObject.getJSONArray(ConfigClass1.TAG_JSON_ARRAY);
 
             config = new ConfigClass1(array.length());
 
-            for (int i = 0; i < array.length(); i++){
+            for (int i = 0; i < array.length(); i++) {
                 JSONObject j = array.getJSONObject(i);
                 ConfigClass1.titles[i] = getTitle(j);
                 ConfigClass1.urls[i] = getURL(j);
                 ConfigClass1.content[i] = getContent(j);
                 ConfigClass1.website[i] = getWebSite(j);
             }
-        } catch (JSONException e) {
+        } catch (JSONException e){
             e.printStackTrace();
         }
-
-        GetBitMapTech gb = new GetBitMapTech(getActivity(), this, ConfigClass1.urls);
+        GetBitmap gb = new GetBitmap(getActivity(), this, ConfigClass1.urls);
         gb.execute();
     }
 
     /**
-     * Call the methods that get the JSONObjects from the array
-     * @param
+     * Call the Methods that will parse each json Object within the JSON Array
+     * @param j
+     * @return
      */
 
     private String getWebSite(JSONObject j){
@@ -192,8 +193,8 @@ public class TechFragment extends Fragment {
         String title = null;
         try{
             title = j.getString(ConfigClass1.TAG_IMAGE_TITLE);
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } catch (JSONException e){
+            e.printStackTrace();;
         }
         return title;
     }
@@ -202,7 +203,7 @@ public class TechFragment extends Fragment {
         String url = null;
         try{
             url = j.getString(ConfigClass1.TAG_IMAGE_URL);
-        } catch (JSONException e) {
+        } catch(JSONException e){
             e.printStackTrace();
         }
         return url;
@@ -212,7 +213,7 @@ public class TechFragment extends Fragment {
         String content = null;
         try{
             content = j.getString(ConfigClass1.TAG_JSON_CONTENT);
-        } catch (JSONException e) {
+        } catch (JSONException e){
             e.printStackTrace();
         }
         return content;

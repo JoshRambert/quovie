@@ -1,6 +1,5 @@
-package com.ebookfrenzy.quovie;
+package com.ebookfrenzy.quovie.Fragments;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -12,13 +11,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ebookfrenzy.quovie.Bitmaps.GetBitMapLifestyle;
+import android.app.ProgressDialog;
 
-import java.io.BufferedReader;
+import com.ebookfrenzy.quovie.Bitmaps.GetBitMapTech;
+import com.ebookfrenzy.quovie.CardAdapter;
+import com.ebookfrenzy.quovie.ConfigClass1;
+import com.ebookfrenzy.quovie.R;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -27,21 +31,21 @@ import java.net.URL;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link LifeStyleFragment.OnFragmentInteractionListener} interface
+ * {@link TechFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link LifeStyleFragment#newInstance} factory method to
+ * Use the {@link TechFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LifeStyleFragment extends Fragment {
+public class TechFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    //create the variables that will be used throughout the Program
-    private RecyclerView LSRecyclerView;
-    private RecyclerView.LayoutManager LSLayoutManager;
-    private RecyclerView.Adapter LSAdapter;
+    //create the variables that will be used for the Recycler view Class
+    private RecyclerView TechRecyclerView;
+    private RecyclerView.LayoutManager TechLayoutManager;
+    private RecyclerView.Adapter TechAdapter;
 
     private ConfigClass1 config;
 
@@ -51,7 +55,7 @@ public class LifeStyleFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public LifeStyleFragment() {
+    public TechFragment() {
         // Required empty public constructor
     }
 
@@ -61,11 +65,11 @@ public class LifeStyleFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment LifeStyleFragment.
+     * @return A new instance of fragment TechFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static LifeStyleFragment newInstance(String param1, String param2) {
-        LifeStyleFragment fragment = new LifeStyleFragment();
+    public static TechFragment newInstance(String param1, String param2) {
+        TechFragment fragment = new TechFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -83,37 +87,38 @@ public class LifeStyleFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_life_style, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_tech, container, false);
 
         //call the recycler view to the class
-        LSRecyclerView = (RecyclerView)rootView.findViewById(R.id.LifeStyleRecycler_View);
-        LSRecyclerView.setHasFixedSize(true);
+        TechRecyclerView = (RecyclerView) rootView.findViewById(R.id.TechRecycler_View);
+        TechRecyclerView.setHasFixedSize(true);
 
         //get the linearLayoutManager
-        LSLayoutManager = new LinearLayoutManager(getActivity());
-        LSRecyclerView.setLayoutManager(LSLayoutManager);
+        TechLayoutManager = new LinearLayoutManager(getActivity());
+        TechRecyclerView.setLayoutManager(TechLayoutManager);
 
-        //Be sure to add te GetData class
-        lifeStyleData();
+        /*
+        Be sure to add the GetData Class
+         */
+        techData();
         return rootView;
     }
 
-    private void lifeStyleData(){
-        class LifeStyleData extends AsyncTask<Void, Void, String>{
+
+    private void techData() {
+        class TechData extends AsyncTask<Void, Void, String> {
             ProgressDialog progressDialog;
 
             @Override
-            protected  void onPreExecute(){
+            protected void onPreExecute() {
                 super.onPreExecute();
                 progressDialog = ProgressDialog.show(getActivity(), "Fetching Data", "Please wait", false);
-
             }
 
             @Override
-            protected void onPostExecute(String s){
+            protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 progressDialog.dismiss();
                 parseJSON(s);
@@ -122,31 +127,31 @@ public class LifeStyleFragment extends Fragment {
             @Override
             protected String doInBackground(Void... params) {
                 BufferedReader br = null;
-                try{
-                    URL url = new URL(ConfigClass1.GET_LIFESTYLE);
+                try {
+                    URL url = new URL(ConfigClass1.GET_TECH);
                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
                     StringBuilder sb = new StringBuilder();
 
                     br = new BufferedReader(new InputStreamReader(con.getInputStream()));
 
                     String json;
-                    while((json = br.readLine()) != null){
+                    while ((json = br.readLine()) != null) {
                         sb.append(json + "\n");
                     }
                     return sb.toString().trim();
-                } catch (Exception e){
+                } catch (Exception e) {
                     return null;
                 }
             }
         }
-        LifeStyleData ld = new LifeStyleData();
-        ld.execute();
+        TechData td = new TechData();
+        td.execute();
     }
 
     public void showData(){
         //set the adapter to the recycler adapter
-        LSAdapter = new CardAdapter(ConfigClass1.website, ConfigClass1.titles, ConfigClass1.urls, ConfigClass1.bitmaps, ConfigClass1.content);
-        LSRecyclerView.setAdapter(LSAdapter);
+        TechAdapter = new CardAdapter(ConfigClass1.website, ConfigClass1.titles, ConfigClass1.urls, ConfigClass1.bitmaps, ConfigClass1.content);
+        TechRecyclerView.setAdapter(TechAdapter);
     }
 
     private void parseJSON(String json){
@@ -161,22 +166,22 @@ public class LifeStyleFragment extends Fragment {
                 ConfigClass1.titles[i] = getTitle(j);
                 ConfigClass1.urls[i] = getURL(j);
                 ConfigClass1.content[i] = getContent(j);
-                ConfigClass1.website[i] = getWebsite(j);
+                ConfigClass1.website[i] = getWebSite(j);
             }
-        } catch (JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        GetBitMapLifestyle gb = new GetBitMapLifestyle(getActivity(), this, ConfigClass1.urls);
+        GetBitMapTech gb = new GetBitMapTech(getActivity(), this, ConfigClass1.urls);
         gb.execute();
     }
 
     /**
-     * Call the methods that ill get the JSONObjects from the array
+     * Call the methods that get the JSONObjects from the array
      * @param
      */
 
-    private String getWebsite(JSONObject j){
+    private String getWebSite(JSONObject j){
         String webSite = null;
         try{
             webSite = j.getString(ConfigClass1.TAG_JSON_WEBSITE);
@@ -190,7 +195,7 @@ public class LifeStyleFragment extends Fragment {
         String title = null;
         try{
             title = j.getString(ConfigClass1.TAG_IMAGE_TITLE);
-        }catch (JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return title;
@@ -200,21 +205,22 @@ public class LifeStyleFragment extends Fragment {
         String url = null;
         try{
             url = j.getString(ConfigClass1.TAG_IMAGE_URL);
-        } catch(JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return url;
     }
 
-    private String getContent(JSONObject j) {
+    private String getContent(JSONObject j){
         String content = null;
-        try {
+        try{
             content = j.getString(ConfigClass1.TAG_JSON_CONTENT);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return content;
     }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
