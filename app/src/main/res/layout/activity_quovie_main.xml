@@ -18,7 +18,8 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_quovie_main"
         app:menu="@menu/activity_quovie_main_drawer"
-        android:theme="@style/Theme.AppCompat.Light.DarkActionBar"/>
+        android:background="#ffffff"
+        />
 
     <include
         layout="@layout/app_bar_quovie_main"
