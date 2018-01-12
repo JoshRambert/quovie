@@ -23,10 +23,14 @@ import com.ebookfrenzy.quovie.Fragments.FinanceFragment;
 import com.ebookfrenzy.quovie.Fragments.LifeStyleFragment;
 import com.ebookfrenzy.quovie.Fragments.SportsFragment;
 import com.ebookfrenzy.quovie.Fragments.TechFragment;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class QuovieMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, SportsFragment.OnFragmentInteractionListener, LifeStyleFragment.OnFragmentInteractionListener,
 FinanceFragment.OnFragmentInteractionListener, TechFragment.OnFragmentInteractionListener{
+
+    private FirebaseAuth mAuth;
 
     //TODO: Initialize the LOGIN from the google fireBase -- Parse the APIs into the database then display what is in the database to User
     @Override

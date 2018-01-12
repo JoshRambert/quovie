@@ -6,4 +6,6 @@
     <color name="primary_text_default_material_light">#de000000</color>
     <color name="primary_dark_material_light">#757575</color>
     <color name="accent_material_dark">#fb6a6a</color>
+    <color name="primary_material_dark_1">#000000</color>
+    <color name="accent_material_light">#fb6a6a</color>
 </resources>

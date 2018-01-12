@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "725709319002",
+    "firebase_url": "https://quovie-master.firebaseio.com",
+    "project_id": "quovie-master",
+    "storage_bucket": "quovie-master.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:725709319002:android:1475837282e0b436",
+        "android_client_info": {
+          "package_name": "com.ebookfrenzy.quovie"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "725709319002-482rro4qpr80fogla9bqbm3v48n9bpd0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ebookfrenzy.quovie",
+            "certificate_hash": "dadc927ad58c630d6f359f9bde851f95e5c61d20"
+          }
+        },
+        {
+          "client_id": "725709319002-0ct5dbj84j92va11h9cscbsfbp8s171u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZ3hAGAcb1aTvVBNA9Ym167P8vxR4qvuY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "725709319002-0ct5dbj84j92va11h9cscbsfbp8s171u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

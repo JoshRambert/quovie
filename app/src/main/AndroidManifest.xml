@@ -24,8 +24,12 @@
         <activity
             android:name=".ShowArticle"
             android:parentActivityName=".QuovieMainActivity"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"></activity>
-        <activity android:name=".LoginActivity"></activity>
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        <activity android:name=".LoginActivity" />
+        <activity
+            android:name=".ProfileActivity"
+            android:parentActivityName=".QuovieMainActivity">
+        </activity>
     </application>
 
 </manifest>

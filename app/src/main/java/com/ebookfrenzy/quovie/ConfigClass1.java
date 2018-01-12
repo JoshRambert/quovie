@@ -13,8 +13,8 @@ public class ConfigClass1 {
     public static String[] content;
     public static String[] website;
     public static Bitmap[] bitmaps;
-    public static String[] sources;
     public static String[] authors;
+    public static String[] date;
 
     //Create variables to hold different types of APIS in
     static String shortSports = "https://newsapi.org/v2/top-headlines?sources=espn&apiKey=b58181b5d3674ec38753867894405f2c";
@@ -41,12 +41,9 @@ public class ConfigClass1 {
     public static final String TAG_JSON_ARRAY = "articles";
     public static final String TAG_JSON_CONTENT = "description";
     public static final String TAG_JSON_WEBSITE = "url";
+    public static final String TAG_JSON_AUTHOR = "author";
+    public static final String TAG_JSON_DATE = "publishedAt";
 
-    /**
-     *Implement these eventually
-     */
-    public static final String TAG_JSON_AUTHORS = "author";
-    public static final String TAG_JSON_SOURCE = "source";
 
     public ConfigClass1(int i){
         titles = new String[i];
@@ -54,5 +51,7 @@ public class ConfigClass1 {
         content = new String[i];
         bitmaps = new Bitmap[i];
         website = new String[i];
+        authors = new String[i];
+        date = new String[i];
     }
 }

@@ -40,7 +40,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/imageView"
-            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:textAlignment="center"
             android:gravity="center"
             android:textSize="18sp"
             android:textColor="#ffffff"
@@ -53,6 +54,7 @@
             android:layout_below="@+id/textViewTitle"
             android:layout_marginBottom="5dp"
             android:textAlignment="center"
+            android:layout_centerHorizontal="true"
             android:textSize="14sp"
             android:textColor="#ffffff"
             android:gravity="center"
@@ -65,6 +67,35 @@
             android:layout_below="@+id/textViewContent"
             android:gravity="center"
             android:textSize="0sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/webSiteView"
+            android:id="@+id/author"
+            android:gravity="left"
+            android:textColor="#fb6a6a"/>
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/author"
+            android:gravity="left"
+            android:textColor="#fb6a6a"/>
+
+        <ImageButton
+            android:background="#000000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/webSiteView"
+            android:layout_alignParentRight="true"
+            android:id="@+id/saveImage"
+            android:gravity="right"
+            android:clickable="true"
+            android:paddingRight="10dp"
+            android:src="@drawable/ic_action_save"
+            android:focusable="true"/>
 
     </RelativeLayout>
 

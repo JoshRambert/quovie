@@ -1,9 +1,11 @@
 package com.ebookfrenzy.quovie.Fragments;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.ConditionVariable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -148,7 +150,7 @@ public class SportsFragment extends Fragment{
 
     public void showData(){
         //set the adapter to the recycler adapter
-        SportsAdapter = new CardAdapter(ConfigClass1.website, ConfigClass1.titles, ConfigClass1.urls, ConfigClass1.bitmaps, ConfigClass1.content);
+        SportsAdapter = new CardAdapter(ConfigClass1.website, ConfigClass1.titles, ConfigClass1.urls, ConfigClass1.bitmaps, ConfigClass1.content, ConfigClass1.authors, ConfigClass1.date);
         SportsRecyclerView.setAdapter(SportsAdapter);
     }
 
@@ -165,6 +167,8 @@ public class SportsFragment extends Fragment{
                 ConfigClass1.urls[i] = getURL(j);
                 ConfigClass1.content[i] = getContent(j);
                 ConfigClass1.website[i] = getWebSite(j);
+                ConfigClass1.authors[i] = getAuthor(j);
+                ConfigClass1.date[i] = getDate(j);
             }
         } catch (JSONException e){
             e.printStackTrace();
@@ -178,6 +182,26 @@ public class SportsFragment extends Fragment{
      * @param j
      * @return
      */
+
+    private String getAuthor(JSONObject j){
+        String author = null;
+        try{
+            author = j.getString(ConfigClass1.TAG_JSON_AUTHOR);
+        } catch(JSONException e){
+            e.printStackTrace();
+        }
+        return author;
+    }
+
+    private String getDate(JSONObject j){
+        String date = null;
+        try{
+            date = j.getString(ConfigClass1.TAG_JSON_DATE);
+        } catch(JSONException e){
+            e.printStackTrace();
+        }
+        return date;
+    }
 
     private String getWebSite(JSONObject j){
         String webSite = null;

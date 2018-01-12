@@ -13,6 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.design.widget.Snackbar;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
@@ -28,7 +32,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
     List<ListItem> items;
 
-    public CardAdapter(String[] webSite, String[] titles, String[] urls, Bitmap[] images, String[] Content) {
+    public CardAdapter(String[] webSite, String[] titles, String[] urls, Bitmap[] images, String[] Content, String[] author, String[] date) {
         super();
         items = new ArrayList<ListItem>();
         for (int i = 0; i < titles.length; i++) {
@@ -38,6 +42,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             item.setImage(images[i]);
             item.setContent(Content[i]);
             item.setWebSite(webSite[i]);
+            item.setAuthor(author[i]);
+            item.setDate(date[i]);
             items.add(item);
         }
     }
@@ -48,6 +54,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_layout, parent, false);
         ViewHolder viewHolder = new ViewHolder(v);
+
+        //Initialize the firebase stuff
         return viewHolder;
     }
 
@@ -59,9 +67,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         holder.imageView.setImageBitmap(list.getImage());
         holder.textViewTitle.setText(list.getTitle());
         holder.textViewWebSite.setText(list.getWebsite());
-        //add the content
         holder.textViewContent.setText(list.getContent());
-        //holder.
+        holder.textViewAuthor.setText(list.getAuthor());
+        holder.textViewDate.setText(list.getDate());
     }
 
     @Override
@@ -77,6 +85,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         public TextView textViewTitle;
         public TextView textViewWebSite;
         public TextView textViewContent;
+        public TextView textViewAuthor;
+        public TextView textViewDate;
 
         public ViewHolder(View itemView){
             super(itemView);
@@ -86,9 +96,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             textViewTitle = (TextView)itemView.findViewById(R.id.textViewTitle);
             textViewContent = (TextView)itemView.findViewById(R.id.textViewContent);
             textViewWebSite = (TextView)itemView.findViewById(R.id.webSiteView);
-
-
-            //TODO: Send the URL(webSite) of the News article into the ShowArticle Activity for to display the webPage
+            textViewAuthor = (TextView)itemView.findViewById(R.id.author);
+            textViewDate = (TextView)itemView.findViewById(R.id.date);
 
             //in order to add an onclick listener for each card the viewHolder method
             //must be edited to do so...edit the itemView variable
@@ -106,6 +115,15 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
                     ((QuovieMainActivity)context).startActivityForResult(i, request_code);
                 }
             });
+        }
+
+        //TODO --  make the logic for the function that will save the news article
+        private void saveInfo(){
+            //Get the Website and the title
+            String website = textViewWebSite.getText().toString();
+            String title = textViewTitle.getText().toString();
+
+            //Save the information to the users profile
         }
     }
 }

@@ -151,7 +151,7 @@ public class FinanceFragment extends Fragment {
 
     public void showData(){
         //set the adapter to the recycler adapter
-        FinanceAdapter = new CardAdapter(ConfigClass1.website, ConfigClass1.titles, ConfigClass1.urls, ConfigClass1.bitmaps, ConfigClass1.content);
+        FinanceAdapter = new CardAdapter(ConfigClass1.website, ConfigClass1.titles, ConfigClass1.urls, ConfigClass1.bitmaps, ConfigClass1.content, ConfigClass1.authors, ConfigClass1.date);
         FinanceRecyclerView.setAdapter(FinanceAdapter);
     }
 
@@ -168,6 +168,8 @@ public class FinanceFragment extends Fragment {
                 ConfigClass1.urls[i] = getUrl(j);
                 ConfigClass1.content[i] = getContent(j);
                 ConfigClass1.website[i] = getWebSite(j);
+                ConfigClass1.authors[i] = getAuthor(j);
+                ConfigClass1.date[i] = getDate(j);
             }
         } catch(Exception e){
             e.printStackTrace();
@@ -181,6 +183,26 @@ public class FinanceFragment extends Fragment {
      * Call the methods that get the JSONObjects from the array
      * @param
      */
+
+    private String getAuthor(JSONObject j){
+        String author = null;
+        try{
+            author = j.getString(ConfigClass1.TAG_JSON_AUTHOR);
+        } catch (JSONException e){
+            e.printStackTrace();;
+        }
+        return author;
+    }
+
+    private String getDate(JSONObject j){
+        String date = null;
+        try{
+            date = j.getString(ConfigClass1.TAG_JSON_DATE);
+        } catch (JSONException e){
+            e.printStackTrace();
+        }
+        return date;
+    }
 
     private String getWebSite(JSONObject j){
         String webSite = null;
