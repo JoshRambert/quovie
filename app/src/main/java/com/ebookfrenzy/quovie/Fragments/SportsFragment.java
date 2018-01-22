@@ -6,19 +6,27 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.ConditionVariable;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import android.app.ProgressDialog;
+import android.widget.ProgressBar;
 
 import com.ebookfrenzy.quovie.Bitmaps.GetBitmap;
 import com.ebookfrenzy.quovie.CardAdapter;
 import com.ebookfrenzy.quovie.ConfigClass1;
 import com.ebookfrenzy.quovie.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,6 +36,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 
 /**
@@ -50,6 +59,7 @@ public class SportsFragment extends Fragment{
     private RecyclerView.Adapter SportsAdapter;
 
     private ConfigClass1 config;
+    ProgressBar progressBar;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -100,147 +110,144 @@ public class SportsFragment extends Fragment{
        SportsLayoutManger = new LinearLayoutManager(getActivity());
        SportsRecyclerView.setLayoutManager(SportsLayoutManger);
 
+       progressBar = (ProgressBar) rootView.findViewById(R.id.mainProgressBar);
+
        /*
        Be sure to add the GetData class
        */
-       sportsData();
+       readAndShowSports();
        return rootView;
    }
 
-    private void sportsData(){
-        class SportsData extends AsyncTask<Void, Void, String> {
-            ProgressDialog progressDialog;
-
-            @Override
-            protected void onPreExecute(){
-                super.onPreExecute();
-                progressDialog = ProgressDialog.show(getActivity(), "Fetching Data", "Please wait", false);
-            }
-
-            @Override
-            protected void onPostExecute(String s){
-                super.onPostExecute(s);
-                progressDialog.dismiss();
-                parseJSON(s);
-            }
-
-            @Override
-            protected String doInBackground(Void... params) {
-                BufferedReader br = null;
-                try{
-                    URL url = new URL(ConfigClass1.GET_SPORTS);
-                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                    StringBuilder sb = new StringBuilder();
-
-                    br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-
-                    String json;
-                    while((json = br.readLine()) != null){
-                        sb.append(json +"\n");
-                    }
-                    return sb.toString().trim();
-                } catch (Exception e){
-                    return null;
-                }
-            }
-        }
-        SportsData sd = new SportsData();
-        sd.execute();
-    }
 
     public void showData(){
         //set the adapter to the recycler adapter
-        SportsAdapter = new CardAdapter(ConfigClass1.website, ConfigClass1.titles, ConfigClass1.urls, ConfigClass1.bitmaps, ConfigClass1.content, ConfigClass1.authors, ConfigClass1.date);
+        SportsAdapter = new CardAdapter(ConfigClass1.dbWebsite, ConfigClass1.dbTitles, ConfigClass1.dbUrlImages, ConfigClass1.bitmaps, ConfigClass1.dbContent, ConfigClass1.dbAuthors, ConfigClass1.dbDates);
         SportsRecyclerView.setAdapter(SportsAdapter);
     }
 
-    private void parseJSON(String json){
-        try {
-            JSONObject jsonObject = new JSONObject(json);
-            JSONArray array = jsonObject.getJSONArray(ConfigClass1.TAG_JSON_ARRAY);
-
-            config = new ConfigClass1(array.length());
-
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject j = array.getJSONObject(i);
-                ConfigClass1.titles[i] = getTitle(j);
-                ConfigClass1.urls[i] = getURL(j);
-                ConfigClass1.content[i] = getContent(j);
-                ConfigClass1.website[i] = getWebSite(j);
-                ConfigClass1.authors[i] = getAuthor(j);
-                ConfigClass1.date[i] = getDate(j);
+    private void readAndShowSports(){
+        class ReadAndShowSports extends AsyncTask<Void, Void, String>{
+            @Override
+            protected void onPreExecute(){
+                super.onPreExecute();
+                readSportsNews();
+                progressBar.setVisibility(View.VISIBLE);
             }
-        } catch (JSONException e){
-            e.printStackTrace();
+
+            @Override
+            protected String doInBackground(Void... voids) {
+                return null;
+
+            }
+
+            @Override
+            protected  void onPostExecute(String s){
+                super.onPostExecute(s);
+                progressBar.setVisibility(View.INVISIBLE);
+            }
         }
-        GetBitmap gb = new GetBitmap(getActivity(), this, ConfigClass1.urls);
-        gb.execute();
+        ReadAndShowSports rs = new ReadAndShowSports();
+        rs.execute();
     }
 
-    /**
-     * Call the Methods that will parse each json Object within the JSON Array
-     * @param j
-     * @return
-     */
+    DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference mSportsRef = mRootRef.child("Sports");
 
-    private String getAuthor(JSONObject j){
-        String author = null;
-        try{
-            author = j.getString(ConfigClass1.TAG_JSON_AUTHOR);
-        } catch(JSONException e){
-            e.printStackTrace();
-        }
-        return author;
-    }
+    private void readSportsNews(){
+        DatabaseReference mTitlesRef = mSportsRef.child("Titles");
+        mTitlesRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //Get the list then convert it into an array
+                ArrayList<String> titles = (ArrayList<String>) dataSnapshot.getValue();
+                //convert titles into an array
+                String[] mTitles = titles.toArray(new String[titles.size()]);
+                ConfigClass1.dbTitles = mTitles.clone();
+            }
 
-    private String getDate(JSONObject j){
-        String date = null;
-        try{
-            date = j.getString(ConfigClass1.TAG_JSON_DATE);
-        } catch(JSONException e){
-            e.printStackTrace();
-        }
-        return date;
-    }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("", "Error getting the values of the titles");
+            }
+        });
+        //Repeat the process for each of the values in the database
+        DatabaseReference mContentRef = mSportsRef.child("Content");
+        mContentRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //Get the list from the database then convert it into an array
+                ArrayList<String> content = (ArrayList<String>) dataSnapshot.getValue();
+                //Convert the titles into an array
+                String[] mContent = content.toArray(new String[content.size()]);
+                ConfigClass1.dbContent = mContent.clone();
+            }
 
-    private String getWebSite(JSONObject j){
-        String webSite = null;
-        try{
-            webSite = j.getString(ConfigClass1.TAG_JSON_WEBSITE);
-        } catch (JSONException e){
-            e.printStackTrace();
-        }
-        return webSite;
-    }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("", "Error getting the values of the content");
+            }
+        });
+        DatabaseReference mAuthorsRef = mSportsRef.child("Authors");
+        mAuthorsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> authors = (ArrayList<String>) dataSnapshot.getValue();
+                String[] mAuthors = authors.toArray(new String[authors.size()]).clone();
+                ConfigClass1.dbAuthors = mAuthors.clone();
+            }
 
-    private String getTitle(JSONObject j){
-        String title = null;
-        try{
-            title = j.getString(ConfigClass1.TAG_IMAGE_TITLE);
-        } catch (JSONException e){
-            e.printStackTrace();;
-        }
-        return title;
-    }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("", "Error getting the values of the author");
+            }
+        });
+        DatabaseReference mUrls = mSportsRef.child("Url Images");
+        mUrls.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> urls = (ArrayList<String>) dataSnapshot.getValue();
+                String[] mUrls = urls.toArray(new String[urls.size()]).clone();
+                ConfigClass1.dbUrlImages = mUrls.clone();
 
-    private String getURL(JSONObject j){
-        String url = null;
-        try{
-            url = j.getString(ConfigClass1.TAG_IMAGE_URL);
-        } catch(JSONException e){
-            e.printStackTrace();
-        }
-        return url;
-    }
+                //Lastly convert the local images into bitmaps
+                GetBitmap gb = new GetBitmap(getActivity(), ConfigClass1.dbUrlImages, SportsFragment.this);
+                gb.execute();
+            }
 
-    private String getContent(JSONObject j){
-        String content = null;
-        try{
-            content = j.getString(ConfigClass1.TAG_JSON_CONTENT);
-        } catch (JSONException e){
-            e.printStackTrace();
-        }
-        return content;
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("", "Error getting the urls values");
+            }
+        });
+        DatabaseReference mWebsites = mSportsRef.child("Websites");
+        mWebsites.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> websites = (ArrayList<String>) dataSnapshot.getValue();
+                String[] mWebsites = websites.toArray(new String[websites.size()]).clone();
+                ConfigClass1.dbWebsite = mWebsites.clone();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("", "Error getting");
+            }
+        });
+        DatabaseReference mDates = mSportsRef.child("Dates");
+        mDates.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> dates = (ArrayList<String>) dataSnapshot.getValue();
+                String[] mDates = dates.toArray(new String[dates.size()]).clone();
+                ConfigClass1.dbDates = mDates.clone();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("", "Error getting the values of the dates");
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -148,7 +148,7 @@ public class LifeStyleFragment extends Fragment {
 
     public void showData(){
         //set the adapter to the recycler adapter
-        LSAdapter = new CardAdapter(ConfigClass1.website, ConfigClass1.titles, ConfigClass1.urls, ConfigClass1.bitmaps, ConfigClass1.content, ConfigClass1.authors, ConfigClass1.date);
+        LSAdapter = new CardAdapter(ConfigClass1.website, ConfigClass1.titles, ConfigClass1.urlImages, ConfigClass1.bitmaps, ConfigClass1.content, ConfigClass1.authors, ConfigClass1.date);
         LSRecyclerView.setAdapter(LSAdapter);
     }
 
@@ -162,7 +162,7 @@ public class LifeStyleFragment extends Fragment {
             for (int i = 0; i < array.length(); i++){
                 JSONObject j = array.getJSONObject(i);
                 ConfigClass1.titles[i] = getTitle(j);
-                ConfigClass1.urls[i] = getURL(j);
+                ConfigClass1.urlImages[i] = getURL(j);
                 ConfigClass1.content[i] = getContent(j);
                 ConfigClass1.website[i] = getWebsite(j);
                 ConfigClass1.authors[i] = getAuthor(j);
@@ -172,7 +172,7 @@ public class LifeStyleFragment extends Fragment {
             e.printStackTrace();
         }
 
-        GetBitMapLifestyle gb = new GetBitMapLifestyle(getActivity(), this, ConfigClass1.urls);
+        GetBitMapLifestyle gb = new GetBitMapLifestyle(getActivity(), this, ConfigClass1.urlImages);
         gb.execute();
     }
 

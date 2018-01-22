@@ -35,7 +35,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     public CardAdapter(String[] webSite, String[] titles, String[] urls, Bitmap[] images, String[] Content, String[] author, String[] date) {
         super();
         items = new ArrayList<ListItem>();
-        for (int i = 0; i < titles.length; i++) {
+        for (int i = 0; i < 9; i++) {
             ListItem item = new ListItem();
             item.setTitle(titles[i]);
             item.setUrl(urls[i]);
@@ -55,7 +55,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_layout, parent, false);
         ViewHolder viewHolder = new ViewHolder(v);
 
-        //Initialize the firebase stuff
         return viewHolder;
     }
 

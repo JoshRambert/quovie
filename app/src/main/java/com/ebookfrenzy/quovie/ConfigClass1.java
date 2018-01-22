@@ -9,7 +9,7 @@ import android.graphics.Bitmap;
 public class ConfigClass1 {
     //create the Array variables that will be used for the configuration
     public static String[] titles;
-    public static String[] urls;
+    public static String[] urlImages;
     public static String[] content;
     public static String[] website;
     public static Bitmap[] bitmaps;
@@ -47,11 +47,19 @@ public class ConfigClass1 {
 
     public ConfigClass1(int i){
         titles = new String[i];
-        urls = new String[i];
+        urlImages = new String[i];
         content = new String[i];
         bitmaps = new Bitmap[i];
         website = new String[i];
         authors = new String[i];
         date = new String[i];
     }
+
+    //Create the database arrays to store the values
+    public static String[] dbTitles;
+    public static String[] dbUrlImages;
+    public static String[] dbContent;
+    public static String[] dbWebsite;
+    public static String[] dbAuthors;
+    public static String[] dbDates;
 }

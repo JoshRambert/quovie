@@ -151,7 +151,7 @@ public class FinanceFragment extends Fragment {
 
     public void showData(){
         //set the adapter to the recycler adapter
-        FinanceAdapter = new CardAdapter(ConfigClass1.website, ConfigClass1.titles, ConfigClass1.urls, ConfigClass1.bitmaps, ConfigClass1.content, ConfigClass1.authors, ConfigClass1.date);
+        FinanceAdapter = new CardAdapter(ConfigClass1.website, ConfigClass1.titles, ConfigClass1.urlImages, ConfigClass1.bitmaps, ConfigClass1.content, ConfigClass1.authors, ConfigClass1.date);
         FinanceRecyclerView.setAdapter(FinanceAdapter);
     }
 
@@ -165,7 +165,7 @@ public class FinanceFragment extends Fragment {
             for (int i = 0; i < array.length(); i++){
                 JSONObject j = array.getJSONObject(i);
                 ConfigClass1.titles[i] = getTitle(j);
-                ConfigClass1.urls[i] = getUrl(j);
+                ConfigClass1.urlImages[i] = getUrl(j);
                 ConfigClass1.content[i] = getContent(j);
                 ConfigClass1.website[i] = getWebSite(j);
                 ConfigClass1.authors[i] = getAuthor(j);
@@ -175,7 +175,7 @@ public class FinanceFragment extends Fragment {
             e.printStackTrace();
         }
 
-        GetBitMapFinance gb = new GetBitMapFinance(getActivity(), this, ConfigClass1.urls);
+        GetBitMapFinance gb = new GetBitMapFinance(getActivity(), this, ConfigClass1.urlImages);
         gb.execute();
     }
 

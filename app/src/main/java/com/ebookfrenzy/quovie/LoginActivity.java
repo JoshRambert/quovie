@@ -76,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         if (password.length() < 8){
-            mPasswordView.setError("Password must be atleat 8 characters long");
+            mPasswordView.setError("Password must be atleast 8 characters long");
             mPasswordView.requestFocus();
             return;
         }

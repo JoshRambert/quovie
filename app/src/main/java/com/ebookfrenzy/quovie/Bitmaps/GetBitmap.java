@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 
 import com.ebookfrenzy.quovie.ConfigClass1;
 import com.ebookfrenzy.quovie.Fragments.SportsFragment;
+import com.ebookfrenzy.quovie.QuovieMainActivity;
 
 import java.net.URL;
 /**
@@ -17,35 +18,31 @@ import java.net.URL;
 public class GetBitmap extends AsyncTask<Void,Void,Void> {
     //create the variables that will be used throughout the class
     private Context context;
-    private String[] urls;
-    private ProgressDialog loading;
+    private String[] urlImages;
     private SportsFragment sportsFragment;
 
-    public GetBitmap(Context context, SportsFragment sportsFragment, String[] urls){
+    public GetBitmap(Context context, String[] urls, SportsFragment sportsFragment){
         //get the bitmap
         this.context = context;
-        this.urls = urls;
+        this.urlImages = urls;
         this.sportsFragment = sportsFragment;
     }
 
-    //use these methods to execute the displayed data
     @Override
     protected void onPreExecute(){
         super.onPreExecute();
-        loading = ProgressDialog.show(context, "Downloading Image", "Please wait", false, false);
     }
 
     @Override
     protected void onPostExecute(Void aVoid){
         super.onPostExecute(aVoid);
-        loading.dismiss();
         sportsFragment.showData();
     }
 
     @Override
     protected Void doInBackground(Void...params){
-        for(int i = 0; i<urls.length; i++){
-            ConfigClass1.bitmaps[i] = getImage(urls[i]);
+        for(int i = 0; i< urlImages.length; i++){
+            ConfigClass1.bitmaps[i] = getImage(urlImages[i]);
         }
         return null;
     }

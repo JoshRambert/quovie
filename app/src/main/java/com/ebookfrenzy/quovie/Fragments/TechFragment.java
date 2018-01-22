@@ -150,7 +150,7 @@ public class TechFragment extends Fragment {
 
     public void showData(){
         //set the adapter to the recycler adapter
-        TechAdapter = new CardAdapter(ConfigClass1.website, ConfigClass1.titles, ConfigClass1.urls, ConfigClass1.bitmaps, ConfigClass1.content, ConfigClass1.authors, ConfigClass1.date);
+        TechAdapter = new CardAdapter(ConfigClass1.website, ConfigClass1.titles, ConfigClass1.urlImages, ConfigClass1.bitmaps, ConfigClass1.content, ConfigClass1.authors, ConfigClass1.date);
         TechRecyclerView.setAdapter(TechAdapter);
     }
 
@@ -164,7 +164,7 @@ public class TechFragment extends Fragment {
             for (int i = 0; i < array.length(); i++){
                 JSONObject j = array.getJSONObject(i);
                 ConfigClass1.titles[i] = getTitle(j);
-                ConfigClass1.urls[i] = getURL(j);
+                ConfigClass1.urlImages[i] = getURL(j);
                 ConfigClass1.content[i] = getContent(j);
                 ConfigClass1.website[i] = getWebSite(j);
                 ConfigClass1.authors[i] = getAuthor(j);
@@ -174,7 +174,7 @@ public class TechFragment extends Fragment {
             e.printStackTrace();
         }
 
-        GetBitMapTech gb = new GetBitMapTech(getActivity(), this, ConfigClass1.urls);
+        GetBitMapTech gb = new GetBitMapTech(getActivity(), this, ConfigClass1.urlImages);
         gb.execute();
     }
 
