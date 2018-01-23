@@ -7,14 +7,38 @@ import android.graphics.Bitmap;
  */
 
 public class ConfigClass1 {
-    //create the Array variables that will be used for the configuration
-    public static String[] titles;
-    public static String[] urlImages;
-    public static String[] content;
-    public static String[] website;
-    public static Bitmap[] bitmaps;
-    public static String[] authors;
-    public static String[] date;
+    //Create the arrays that will be used to store the parsed information
+    public static String[] sportsTitles;
+    public static String[] sportsUrlImages;
+    public static String[] sportsContent;
+    public static String[] sportsWebsite;
+    public static Bitmap[] sportsBitmaps;
+    public static String[] sportsAuthors;
+    public static String[] sportsDate;
+
+    public static String[] techTitles;
+    public static String[] techUrlImages;
+    public static String[] techContent;
+    public static String[] techWebsites;
+    public static String[] techBitmaps;
+    public static String[] techAuthors;
+    public static String[] techDate;
+
+    public static String[] financeTitles;
+    public static String[] financeUrlImages;
+    public static String[] financeContent;
+    public static String[] financeWebsites;
+    public static String[] financeBitmaps;
+    public static String[] financeAuthors;
+    public static String[] financeDate;
+
+    public static String[] lsTitles;
+    public static String[] lsUrlImages;
+    public static String[] lsContent;
+    public static String[] lsWebsites;
+    public static String[] lsBitmaps;
+    public static String[] lsAuthors;
+    public static String[] lsDate;
 
     //Create variables to hold different types of APIS in
     static String shortSports = "https://newsapi.org/v2/top-headlines?sources=espn&apiKey=b58181b5d3674ec38753867894405f2c";
@@ -46,13 +70,37 @@ public class ConfigClass1 {
 
 
     public ConfigClass1(int i){
-        titles = new String[i];
-        urlImages = new String[i];
-        content = new String[i];
-        bitmaps = new Bitmap[i];
-        website = new String[i];
-        authors = new String[i];
-        date = new String[i];
+        sportsTitles = new String[i];
+        sportsUrlImages = new String[i];
+        sportsContent = new String[i];
+        sportsBitmaps = new Bitmap[i];
+        sportsWebsite = new String[i];
+        sportsAuthors = new String[i];
+        sportsDate = new String[i];
+
+        techTitles =  new String[i];
+        techUrlImages = new String[i];
+        techContent = new String[i];
+        techBitmaps = new String[i];
+        techWebsites = new String[i];
+        techAuthors = new String[i];
+        techDate = new String[i];
+
+        financeTitles = new String[i];
+        financeUrlImages = new String[i];
+        financeContent = new String[i];
+        financeBitmaps = new String[i];
+        financeWebsites = new String[i];
+        financeAuthors = new String[i];
+        financeDate = new String[i];
+
+        lsTitles = new String[i];
+        lsUrlImages = new String[i];
+        lsContent = new String[i];
+        lsBitmaps = new String[i];
+        lsWebsites = new String[i];
+        lsAuthors = new String[i];
+        lsDate = new String[i];
     }
 
     //Create the database arrays to store the values

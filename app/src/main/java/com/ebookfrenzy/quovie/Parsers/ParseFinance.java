@@ -1,17 +1,9 @@
-package com.ebookfrenzy.quovie;
+package com.ebookfrenzy.quovie.Parsers;
 
-import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
-import android.util.Log;
 
-import com.ebookfrenzy.quovie.Bitmaps.GetBitmap;
-import com.ebookfrenzy.quovie.Fragments.SportsFragment;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
+import com.ebookfrenzy.quovie.ConfigClass1;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,53 +13,47 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-
-import static android.content.ContentValues.TAG;
 
 /**
- * Created by joshuarambert on 1/16/18.
+ * Created by joshuarambert on 1/23/18.
  */
 
-//This class will be able to parse the Sports API from off of the internet
-public class ParseSports {
+public class ParseFinance {
 
     private ConfigClass1 config;
 
-    public void sportsData(){
-        class SportsData extends AsyncTask<Void, Void, String>{
+    public void financeData(){
+        class FinanceData extends AsyncTask<Void, Void, String>{
             @Override
             protected void onPostExecute(String s){
                 super.onPostExecute(s);
                 parseJSON(s);
-                //Write to the database
             }
 
             @Override
             protected String doInBackground(Void... voids) {
                 BufferedReader br = null;
-                try {
-                    URL url = new URL(ConfigClass1.GET_SPORTS);
+                try{
+                    URL url = new URL(ConfigClass1.GET_FINANCE);
                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
                     StringBuilder sb = new StringBuilder();
                     String json;
 
                     br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                    while((json = br.readLine()) != null){
+                    while ((json = br.readLine()) != null){
                         sb.append(json + "\n");
                     }
                     return sb.toString().trim();
                 } catch (Exception e){
                     return null;
+
                 }
             }
         }
-        SportsData sd =  new SportsData();
-        sd.execute();
+        FinanceData fd = new FinanceData();
+        fd.execute();
     }
 
-    //Create the method that will parse the JSON
     private void parseJSON(String json){
         try{
             JSONObject jsonObject = new JSONObject(json);
@@ -77,26 +63,27 @@ public class ParseSports {
 
             for (int i = 0; i < array.length(); i++){
                 JSONObject j = array.getJSONObject(i);
-                ConfigClass1.titles[i] = getTitle(j);
-                ConfigClass1.authors[i] = getAuthor(j);
-                ConfigClass1.content[i] = getContent(j);
-                ConfigClass1.website[i] = getWebsite(j);
-                ConfigClass1.urlImages[i] = getURL(j);
-                ConfigClass1.date[i] = getDate(j);
+                ConfigClass1.financeTitles[i] = getTitle(j);
+                ConfigClass1.financeAuthors[i] = getAuthor(j);
+                ConfigClass1.financeContent[i] = getContent(j);
+                ConfigClass1.financeWebsites[i] = getWebsite(j);
+                ConfigClass1.financeUrlImages[i] = getURL(j);
+                ConfigClass1.financeDate[i] = getDate(j);
+
             }
-        } catch (JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * Create the methods that will parse the JSONObjects into Strings
+     * Create methods that will parse the JSONObjects into strings
      */
 
     private String getAuthor(JSONObject j){
         String author = null;
         try{
-            author = j.getString(ConfigClass1.TAG_JSON_AUTHOR);
+            author = j.getString(ConfigClass1.TAG_JSON_ARRAY);
         } catch (JSONException e){
             e.printStackTrace();
         }
@@ -123,7 +110,7 @@ public class ParseSports {
         return website;
     }
 
-    private String getTitle (JSONObject j){
+    private String getTitle(JSONObject j){
         String title = null;
         try{
             title = j.getString(ConfigClass1.TAG_IMAGE_TITLE);

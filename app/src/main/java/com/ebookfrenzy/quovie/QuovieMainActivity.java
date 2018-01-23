@@ -4,13 +4,9 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.support.annotation.NonNull;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.util.Base64;
-import android.util.Log;
+import android.util.Config;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,40 +14,28 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
 import android.widget.ProgressBar;
 
-import com.ebookfrenzy.quovie.Bitmaps.GetBitmap;
 import com.ebookfrenzy.quovie.Fragments.FinanceFragment;
 import com.ebookfrenzy.quovie.Fragments.LifeStyleFragment;
 import com.ebookfrenzy.quovie.Fragments.SportsFragment;
 import com.ebookfrenzy.quovie.Fragments.TechFragment;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.ebookfrenzy.quovie.Parsers.ParseFinance;
+import com.ebookfrenzy.quovie.Parsers.ParseLifeStyle;
+import com.ebookfrenzy.quovie.Parsers.ParseSports;
+import com.ebookfrenzy.quovie.Parsers.ParseTechnology;
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
-import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import static android.content.ContentValues.TAG;
 
 public class QuovieMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, SportsFragment.OnFragmentInteractionListener, LifeStyleFragment.OnFragmentInteractionListener,
@@ -172,11 +156,17 @@ FinanceFragment.OnFragmentInteractionListener, TechFragment.OnFragmentInteractio
      */
 
 
+    //The data base references for each of the topics
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+
     DatabaseReference mSportsRef = mRootRef.child("Sports");
-    //Create the storage reference for the Sports Images
+    DatabaseReference mTechRef = mRootRef.child("Technology");
+    DatabaseReference mFinanceRef = mRootRef.child("Finance");
+    DatabaseReference mLifestyleRef = mRootRef.child("Lifestyle");
+
 
     //Create the method that will write to the database -- also put this in the on start method of the Android lifecycle
+    //TODO --  Find a way to write images to the database
     public void writeSportsNews(String[] titles, String[] authors, String[] content, String[] urlImages, String[] website, String[] date){
         //Before we add the data to the database we must first turn it into a a list array
         //Set the children of the sports reference to the values from the
@@ -195,8 +185,59 @@ FinanceFragment.OnFragmentInteractionListener, TechFragment.OnFragmentInteractio
         mSportsRef.child("Websites").setValue(websitesList);
         mSportsRef.child("Dates").setValue(datesList);
 
-        //Write the sports images to the storage instead of the Databas
+        //Write the sports images to the storage instead of the D
 
+    }
+
+    public void writeTechNews(String[] titles, String[] authors, String[] content, String[] urlImages, String[] website, String[] date){
+        //first turn the array into lists and then send it to the database
+        List titlesList = new ArrayList(Arrays.asList(titles));
+        List contentList = new ArrayList(Arrays.asList(content));
+        List authorsList = new ArrayList(Arrays.asList(authors));
+        List urlsList = new ArrayList(Arrays.asList(urlImages));
+        List websitesList = new ArrayList(Arrays.asList(website));
+        List datesList = new ArrayList(Arrays.asList(date));
+
+        mTechRef.child("Titles").setValue(titlesList);
+        mTechRef.child("Content").setValue(contentList);
+        mTechRef.child("Authors").setValue(authorsList);
+        mTechRef.child("Url Images").setValue(urlsList);
+        mTechRef.child("Websites").setValue(websitesList);
+        mTechRef.child("Dates").setValue(datesList);
+
+    }
+
+    public void writeFinanceNews(String[] titles, String[] authors, String[] content, String[] urlImages, String[] website, String[] date){
+        List titlesList = new ArrayList(Arrays.asList(titles));
+        List contentList = new ArrayList(Arrays.asList(content));
+        List authorsList = new ArrayList(Arrays.asList(authors));
+        List urlsList = new ArrayList(Arrays.asList(urlImages));
+        List websitesList = new ArrayList(Arrays.asList(website));
+        List datesList = new ArrayList(Arrays.asList(date));
+
+        mFinanceRef.child("Titles").setValue(titlesList);
+        mFinanceRef.child("Content").setValue(contentList);
+        mFinanceRef.child("Authors").setValue(authorsList);
+        mFinanceRef.child("Url Images").setValue(urlsList);
+        mFinanceRef.child("Websites").setValue(websitesList);
+        mFinanceRef.child("Dates").setValue(datesList);
+
+    }
+
+    public void writeLifeStyleNews(String[] titles, String[] authors, String[] content, String[] urlImages, String[] website, String[] date){
+        List titlesList = new ArrayList(Arrays.asList(titles));
+        List contentList = new ArrayList(Arrays.asList(content));
+        List authorsList = new ArrayList(Arrays.asList(authors));
+        List urlsList = new ArrayList(Arrays.asList(urlImages));
+        List websitesList = new ArrayList(Arrays.asList(website));
+        List datesList = new ArrayList(Arrays.asList(date));
+
+        mLifestyleRef.child("Titles").setValue(titlesList);
+        mLifestyleRef.child("Content").setValue(contentList);
+        mLifestyleRef.child("Authors").setValue(authorsList);
+        mLifestyleRef.child("Url Images").setValue(urlsList);
+        mLifestyleRef.child("Websites").setValue(websitesList);
+        mLifestyleRef.child("Dates").setValue(datesList);
     }
 
     private void writeData(){
@@ -205,8 +246,18 @@ FinanceFragment.OnFragmentInteractionListener, TechFragment.OnFragmentInteractio
             @Override
             protected void onPreExecute(){
                 super.onPreExecute();
+                //Parse all of the data
                 ParseSports ps = new ParseSports();
                 ps.sportsData();
+
+                ParseTechnology pt = new ParseTechnology();
+                pt.techData();
+
+                ParseFinance pf = new ParseFinance();
+                pf.financeData();
+
+                ParseLifeStyle pl = new ParseLifeStyle();
+                pl.lifestyleData();
             }
 
             @Override
@@ -216,7 +267,10 @@ FinanceFragment.OnFragmentInteractionListener, TechFragment.OnFragmentInteractio
 
             @Override
             protected void onPostExecute(String s){
-                writeSportsNews(ConfigClass1.titles, ConfigClass1.authors, ConfigClass1.content, ConfigClass1.urlImages, ConfigClass1.website, ConfigClass1.date);
+                writeSportsNews(ConfigClass1.sportsTitles, ConfigClass1.sportsAuthors, ConfigClass1.sportsContent, ConfigClass1.sportsUrlImages, ConfigClass1.sportsWebsite, ConfigClass1.sportsDate);
+                writeTechNews(ConfigClass1.techTitles, ConfigClass1.techAuthors, ConfigClass1.techContent, ConfigClass1.techUrlImages, ConfigClass1.techWebsites, ConfigClass1.techDate);
+                writeFinanceNews(ConfigClass1.financeTitles, ConfigClass1.financeAuthors, ConfigClass1.financeContent, ConfigClass1.financeUrlImages, ConfigClass1.financeWebsites, ConfigClass1.financeDate);
+                writeLifeStyleNews(ConfigClass1.lsTitles, ConfigClass1.lsAuthors, ConfigClass1.lsContent, ConfigClass1.lsUrlImages, ConfigClass1.lsWebsites, ConfigClass1.lsDate);
                 super.onPostExecute(s);
             }
         }

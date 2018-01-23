@@ -59,7 +59,7 @@ public class SportsFragment extends Fragment{
     private RecyclerView.Adapter SportsAdapter;
 
     private ConfigClass1 config;
-    ProgressBar progressBar;
+    private ProgressBar progressBar;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -122,7 +122,7 @@ public class SportsFragment extends Fragment{
 
     public void showData(){
         //set the adapter to the recycler adapter
-        SportsAdapter = new CardAdapter(ConfigClass1.dbWebsite, ConfigClass1.dbTitles, ConfigClass1.dbUrlImages, ConfigClass1.bitmaps, ConfigClass1.dbContent, ConfigClass1.dbAuthors, ConfigClass1.dbDates);
+        SportsAdapter = new CardAdapter(ConfigClass1.dbWebsite, ConfigClass1.dbTitles, ConfigClass1.dbUrlImages, ConfigClass1.sportsBitmaps, ConfigClass1.dbContent, ConfigClass1.dbAuthors, ConfigClass1.dbDates);
         SportsRecyclerView.setAdapter(SportsAdapter);
     }
 
@@ -131,8 +131,8 @@ public class SportsFragment extends Fragment{
             @Override
             protected void onPreExecute(){
                 super.onPreExecute();
-                readSportsNews();
                 progressBar.setVisibility(View.VISIBLE);
+                readSportsNews();
             }
 
             @Override
@@ -211,7 +211,7 @@ public class SportsFragment extends Fragment{
                 ConfigClass1.dbUrlImages = mUrls.clone();
 
                 //Lastly convert the local images into bitmaps
-                GetBitmap gb = new GetBitmap(getActivity(), ConfigClass1.dbUrlImages, SportsFragment.this);
+                GetBitmap gb = new GetBitmap(getActivity(), ConfigClass1.dbUrlImages, SportsFragment.this, progressBar);
                 gb.execute();
             }
 
