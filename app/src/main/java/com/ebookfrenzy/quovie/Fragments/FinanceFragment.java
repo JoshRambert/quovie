@@ -57,7 +57,6 @@ public class FinanceFragment extends Fragment {
     private RecyclerView FinanceRecyclerView;
     private RecyclerView.LayoutManager FinanceLayoutManager;
     private RecyclerView.Adapter FinanceAdapter;
-    private ProgressBar progressBar;
 
     private ConfigClass1 config;
 
@@ -112,8 +111,6 @@ public class FinanceFragment extends Fragment {
         FinanceLayoutManager =  new LinearLayoutManager(getActivity());
         FinanceRecyclerView.setLayoutManager(FinanceLayoutManager);
 
-        progressBar = (ProgressBar)rootView.findViewById(R.id.financeProgressBar);
-
         //Be sure to add the financeData class
         readAndShowFinanceData();
         return rootView;
@@ -124,7 +121,6 @@ public class FinanceFragment extends Fragment {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                progressBar.setVisibility(View.VISIBLE);
                 readFinanceNews();
             }
 
@@ -136,7 +132,6 @@ public class FinanceFragment extends Fragment {
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
-                progressBar.setVisibility(View.INVISIBLE);
             }
         }
         ReadAndShowFinanceData rf = new ReadAndShowFinanceData();
@@ -214,7 +209,7 @@ public class FinanceFragment extends Fragment {
                 String[] mUrls = urls.toArray(new String[urls.size()]);
                 ConfigClass1.dbUrlImages = mUrls.clone();
 
-                GetBitMapFinance gb = new GetBitMapFinance(getActivity(), ConfigClass1.dbUrlImages, progressBar);
+                GetBitMapFinance gb = new GetBitMapFinance(getActivity(), ConfigClass1.dbUrlImages);
                 gb.execute();
             }
 

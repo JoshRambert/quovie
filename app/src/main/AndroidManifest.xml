@@ -28,12 +28,13 @@
             android:name=".ShowArticle"
             android:parentActivityName=".QuovieMainActivity"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
-        <activity android:name=".LoginActivity"
+        <activity
+            android:name=".LoginActivity"
             android:theme="@style/ProfileDarkTheme" />
         <activity
             android:name=".ProfileActivity"
-            android:parentActivityName=".QuovieMainActivity">
-        </activity>
+            android:parentActivityName=".QuovieMainActivity"></activity>
+        <activity android:name=".NewsClasses.SportsActivity"></activity>
     </application>
 
 </manifest>
