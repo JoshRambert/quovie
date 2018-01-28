@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:icon="@drawable/ic_to_sports"
+        android:enabled="true"
+        app:showAsAction="ifRoom"
+        android:title="Sports"
+        android:id="@+id/to_sports"/>
+    <item
+        android:icon="@drawable/ic_to_technology"
+        android:enabled="true"
+        app:showAsAction="ifRoom"
+        android:title="Tech"
+        android:id="@+id/to_tech" />
+
+    <item
+        android:icon="@drawable/ic_to_home"
+        android:enabled="true"
+        app:showAsAction="ifRoom"
+        android:title="Home"
+        android:id="@+id/to_home" />
+    <item
+        android:icon="@drawable/ic_to_lifestyle"
+        android:enabled="true"
+        app:showAsAction="ifRoom"
+        android:title="Lifestyle"
+        android:id="@+id/to_lifestyle" />
+
+    <item
+        android:id="@+id/to_finance"
+        android:enabled="true"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_to_finance"
+        android:title="finance" />
+</menu>

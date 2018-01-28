@@ -1,18 +1,8 @@
 package com.ebookfrenzy.quovie.Parsers;
 
-import android.content.Context;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
-import android.util.Log;
 
-import com.ebookfrenzy.quovie.Bitmaps.GetBitmap;
 import com.ebookfrenzy.quovie.ConfigClass1;
-import com.ebookfrenzy.quovie.Fragments.SportsFragment;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,10 +12,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by joshuarambert on 1/16/18.
@@ -37,7 +23,7 @@ public class ParseSports {
     private ConfigClass1 config;
 
     public void sportsData(){
-        class SportsData extends AsyncTask<Void, Void, String>{
+        class SportsData extends AsyncTask<Void, Void, String> {
             @Override
             protected void onPostExecute(String s){
                 super.onPostExecute(s);

@@ -1,6 +1,5 @@
 package com.ebookfrenzy.quovie.Bitmaps;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,8 +8,6 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.ebookfrenzy.quovie.ConfigClass1;
-import com.ebookfrenzy.quovie.Fragments.SportsFragment;
-import com.ebookfrenzy.quovie.QuovieMainActivity;
 
 import java.net.URL;
 /**
@@ -21,14 +18,12 @@ public class GetBitmap extends AsyncTask<Void,Void,Void> {
     //create the variables that will be used throughout the class
     private Context context;
     private String[] urlImages;
-    private SportsFragment sportsFragment;
     private ProgressBar progressBar;
 
-    public GetBitmap(Context context, String[] urls, SportsFragment sportsFragment, ProgressBar progressBar){
+    public GetBitmap(Context context, String[] urls, ProgressBar progressBar){
         //get the bitmap
         this.context = context;
         this.urlImages = urls;
-        this.sportsFragment = sportsFragment;
         this.progressBar = progressBar;
     }
 
@@ -41,7 +36,6 @@ public class GetBitmap extends AsyncTask<Void,Void,Void> {
     @Override
     protected void onPostExecute(Void aVoid){
         super.onPostExecute(aVoid);
-        sportsFragment.showData();
         progressBar.setVisibility(View.INVISIBLE);
     }
 

@@ -83,7 +83,7 @@ public class ParseFinance {
     private String getAuthor(JSONObject j){
         String author = null;
         try{
-            author = j.getString(ConfigClass1.TAG_JSON_ARRAY);
+            author = j.getString(ConfigClass1.TAG_JSON_AUTHOR);
         } catch (JSONException e){
             e.printStackTrace();
         }

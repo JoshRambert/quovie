@@ -20,7 +20,7 @@ public class ConfigClass1 {
     public static String[] techUrlImages;
     public static String[] techContent;
     public static String[] techWebsites;
-    public static String[] techBitmaps;
+    public static Bitmap[] techBitmaps;
     public static String[] techAuthors;
     public static String[] techDate;
 
@@ -28,7 +28,7 @@ public class ConfigClass1 {
     public static String[] financeUrlImages;
     public static String[] financeContent;
     public static String[] financeWebsites;
-    public static String[] financeBitmaps;
+    public static Bitmap[] financeBitmaps;
     public static String[] financeAuthors;
     public static String[] financeDate;
 
@@ -36,7 +36,7 @@ public class ConfigClass1 {
     public static String[] lsUrlImages;
     public static String[] lsContent;
     public static String[] lsWebsites;
-    public static String[] lsBitmaps;
+    public static Bitmap[] lsBitmaps;
     public static String[] lsAuthors;
     public static String[] lsDate;
 
@@ -81,7 +81,7 @@ public class ConfigClass1 {
         techTitles =  new String[i];
         techUrlImages = new String[i];
         techContent = new String[i];
-        techBitmaps = new String[i];
+        techBitmaps = new Bitmap[i];
         techWebsites = new String[i];
         techAuthors = new String[i];
         techDate = new String[i];
@@ -89,7 +89,7 @@ public class ConfigClass1 {
         financeTitles = new String[i];
         financeUrlImages = new String[i];
         financeContent = new String[i];
-        financeBitmaps = new String[i];
+        financeBitmaps = new Bitmap[i];
         financeWebsites = new String[i];
         financeAuthors = new String[i];
         financeDate = new String[i];
@@ -97,7 +97,7 @@ public class ConfigClass1 {
         lsTitles = new String[i];
         lsUrlImages = new String[i];
         lsContent = new String[i];
-        lsBitmaps = new String[i];
+        lsBitmaps = new Bitmap[i];
         lsWebsites = new String[i];
         lsAuthors = new String[i];
         lsDate = new String[i];

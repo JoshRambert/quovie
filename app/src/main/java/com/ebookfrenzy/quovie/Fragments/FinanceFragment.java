@@ -5,26 +5,38 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceGroup;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.ebookfrenzy.quovie.Bitmaps.GetBitMapFinance;
 import com.ebookfrenzy.quovie.CardAdapter;
 import com.ebookfrenzy.quovie.ConfigClass1;
 import com.ebookfrenzy.quovie.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import static android.content.ContentValues.TAG;
 
 
 /**
@@ -45,6 +57,7 @@ public class FinanceFragment extends Fragment {
     private RecyclerView FinanceRecyclerView;
     private RecyclerView.LayoutManager FinanceLayoutManager;
     private RecyclerView.Adapter FinanceAdapter;
+    private ProgressBar progressBar;
 
     private ConfigClass1 config;
 
@@ -99,152 +112,153 @@ public class FinanceFragment extends Fragment {
         FinanceLayoutManager =  new LinearLayoutManager(getActivity());
         FinanceRecyclerView.setLayoutManager(FinanceLayoutManager);
 
+        progressBar = (ProgressBar)rootView.findViewById(R.id.financeProgressBar);
+
         //Be sure to add the financeData class
-        financeData();
+        readAndShowFinanceData();
         return rootView;
     }
 
-
-    //Create the data class for the fragment
-    private void financeData(){
-        class FinanceData extends AsyncTask<Void, Void, String>{
-            ProgressDialog progressDialog;
-
+    private void readAndShowFinanceData(){
+        class ReadAndShowFinanceData extends AsyncTask<Void, Void, String>{
             @Override
-            protected void onPreExecute(){
+            protected void onPreExecute() {
                 super.onPreExecute();
-                progressDialog = ProgressDialog.show(getActivity(), "Fetching Data", "Please wait", false, false);
+                progressBar.setVisibility(View.VISIBLE);
+                readFinanceNews();
             }
 
             @Override
-            protected void onPostExecute(String s){
+            protected String doInBackground(Void... voids) {
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
                 super.onPostExecute(s);
-                progressDialog.dismiss();
-                parseJSON(s);
-            }
-
-            //Obtain the API from off of the Internet
-            @Override
-            protected String doInBackground(Void... params) {
-                BufferedReader br = null;
-                try{
-                    URL url = new URL(ConfigClass1.GET_FINANCE);
-                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                    StringBuilder sb = new StringBuilder();
-
-                    br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-
-                    String json;
-                    while((json = br.readLine()) != null){
-                        sb.append(json + "\n");
-                    }
-                    return sb.toString().trim();
-                } catch (Exception e){
-                    return null;
-                }
+                progressBar.setVisibility(View.INVISIBLE);
             }
         }
-
-        FinanceData fd = new FinanceData();
-        fd.execute();
+        ReadAndShowFinanceData rf = new ReadAndShowFinanceData();
+        rf.execute();
     }
 
     public void showData(){
         //set the adapter to the recycler adapter
-        FinanceAdapter = new CardAdapter(ConfigClass1.website, ConfigClass1.titles, ConfigClass1.urlImages, ConfigClass1.bitmaps, ConfigClass1.content, ConfigClass1.authors, ConfigClass1.date);
+        FinanceAdapter = new CardAdapter(ConfigClass1.dbWebsite, ConfigClass1.dbTitles, ConfigClass1.dbUrlImages, ConfigClass1.financeBitmaps, ConfigClass1.dbContent, ConfigClass1.dbAuthors, ConfigClass1.dbDates);
         FinanceRecyclerView.setAdapter(FinanceAdapter);
     }
 
-    private void parseJSON(String json){
-        try{
-            JSONObject jsonObject = new JSONObject(json);
-            JSONArray array = jsonObject.getJSONArray(ConfigClass1.TAG_JSON_ARRAY);
-
-            config = new ConfigClass1(array.length());
-
-            for (int i = 0; i < array.length(); i++){
-                JSONObject j = array.getJSONObject(i);
-                ConfigClass1.titles[i] = getTitle(j);
-                ConfigClass1.urlImages[i] = getUrl(j);
-                ConfigClass1.content[i] = getContent(j);
-                ConfigClass1.website[i] = getWebSite(j);
-                ConfigClass1.authors[i] = getAuthor(j);
-                ConfigClass1.date[i] = getDate(j);
-            }
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-
-        GetBitMapFinance gb = new GetBitMapFinance(getActivity(), this, ConfigClass1.urlImages);
-        gb.execute();
-    }
-
     /**
-     * Call the methods that get the JSONObjects from the array
-     * @param
+     * Create the methods that will read from the finance table in the database
+     * @param uri
      */
 
-    private String getAuthor(JSONObject j){
-        String author = null;
-        try{
-            author = j.getString(ConfigClass1.TAG_JSON_AUTHOR);
-        } catch (JSONException e){
-            e.printStackTrace();;
-        }
-        return author;
+    DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference mFinanceRef = mRootRef.child("Finance");
+
+    private void readFinanceNews(){
+        DatabaseReference mTitlesRef = mFinanceRef.child("Titles");
+        mTitlesRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> titles = (ArrayList<String>) dataSnapshot.getValue();
+
+                String[] mTitles = titles.toArray(new String[titles.size()]);
+                ConfigClass1.dbTitles = mTitles.clone();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("", "Error getting the titles from the database");
+            }
+        });
+
+        DatabaseReference mContent = mFinanceRef.child("Content");
+        mContent.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> content = (ArrayList<String>) dataSnapshot.getValue();
+
+                String[] mContent = content.toArray(new String[content.size()]);
+                ConfigClass1.dbContent = mContent.clone();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("", "Error getting the content from the database");
+            }
+        });
+
+        DatabaseReference mAuthors = mFinanceRef.child("Authors");
+        mAuthors.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> authors = (ArrayList<String>) dataSnapshot.getValue();
+
+                String[] mAuthors = authors.toArray(new String[authors.size()]);
+                ConfigClass1.dbAuthors = mAuthors.clone();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("", "Error getting the authors from the database");
+            }
+        });
+
+        DatabaseReference mUrlsRef = mFinanceRef.child("Url Images");
+        mUrlsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> urls = (ArrayList<String>) dataSnapshot.getValue();
+                String[] mUrls = urls.toArray(new String[urls.size()]);
+                ConfigClass1.dbUrlImages = mUrls.clone();
+
+                GetBitMapFinance gb = new GetBitMapFinance(getActivity(), ConfigClass1.dbUrlImages, progressBar);
+                gb.execute();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("", "Error getting the images Urls from the database");
+            }
+        });
+
+        DatabaseReference mWebsites = mFinanceRef.child("Websites");
+        mWebsites.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> websites = (ArrayList<String>) dataSnapshot.getValue();
+                String[] mWebsites = websites.toArray(new String[websites.size()]);
+                ConfigClass1.dbWebsite = mWebsites.clone();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("", "Error getting the websites from the database");
+            }
+        });
+
+        DatabaseReference mDates = mFinanceRef.child("Dates");
+        mDates.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> dates = (ArrayList<String>) dataSnapshot.getValue();
+
+                String[] mDates = dates.toArray(new String[dates.size()]);
+                ConfigClass1.dbDates = mDates.clone();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("", "Error getting the dates from the database");
+            }
+        });
     }
 
-    private String getDate(JSONObject j){
-        String date = null;
-        try{
-            date = j.getString(ConfigClass1.TAG_JSON_DATE);
-        } catch (JSONException e){
-            e.printStackTrace();
-        }
-        return date;
-    }
-
-    private String getWebSite(JSONObject j){
-        String webSite = null;
-        try{
-            webSite = j.getString(ConfigClass1.TAG_JSON_WEBSITE);
-        } catch (JSONException e){
-            e.printStackTrace();
-        }
-        return webSite;
-    }
-
-    private String getTitle(JSONObject j){
-        String title = null;
-        try{
-            title = j.getString(ConfigClass1.TAG_IMAGE_TITLE);
-        } catch (JSONException e){
-            e.printStackTrace();
-        }
-        return title;
-    }
-
-    private String getUrl(JSONObject j){
-        String url = null;
-        try{
-            url = j.getString(ConfigClass1.TAG_IMAGE_URL);
-        } catch (JSONException e){
-            e.printStackTrace();
-        }
-        return url;
-    }
-
-    private String getContent(JSONObject j){
-        String content = null;
-        try{
-            content = j.getString(ConfigClass1.TAG_JSON_CONTENT);
-        } catch(JSONException e){
-            e.printStackTrace();
-        }
-        return content;
-    }
 
     // TODO: Rename method, update argument and hook method into UI event
+
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
