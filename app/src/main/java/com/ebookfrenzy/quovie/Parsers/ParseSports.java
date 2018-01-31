@@ -28,7 +28,6 @@ public class ParseSports {
             protected void onPostExecute(String s){
                 super.onPostExecute(s);
                 parseJSON(s);
-                //Write to the database
             }
 
             @Override
@@ -64,12 +63,11 @@ public class ParseSports {
 
             for (int i = 0; i < array.length(); i++){
                 JSONObject j = array.getJSONObject(i);
-                ConfigClass1.sportsTitles[i] = getTitle(j);
-                ConfigClass1.sportsAuthors[i] = getAuthor(j);
-                ConfigClass1.sportsContent[i] = getContent(j);
-                ConfigClass1.sportsWebsite[i] = getWebsite(j);
-                ConfigClass1.sportsUrlImages[i] = getURL(j);
-                ConfigClass1.sportsDate[i] = getDate(j);
+                ConfigClass1.sportsTitles[i] = getSportsTitle(j);
+                ConfigClass1.sportsAuthors[i] = getSportsAuthor(j);
+                ConfigClass1.sportsContent[i] = getSportsContent(j);
+                ConfigClass1.sportsWebsite[i] = getSportsWebsite(j);
+                ConfigClass1.sportsUrlImages[i] = getSportsURL(j);
             }
         } catch (JSONException e){
             e.printStackTrace();
@@ -80,7 +78,7 @@ public class ParseSports {
      * Create the methods that will parse the JSONObjects into Strings
      */
 
-    private String getAuthor(JSONObject j){
+    private String getSportsAuthor(JSONObject j){
         String author = null;
         try{
             author = j.getString(ConfigClass1.TAG_JSON_AUTHOR);
@@ -90,17 +88,7 @@ public class ParseSports {
         return author;
     }
 
-    private String getDate(JSONObject j){
-        String date = null;
-        try{
-            date = j.getString(ConfigClass1.TAG_JSON_DATE);
-        } catch (JSONException e){
-            e.printStackTrace();
-        }
-        return date;
-    }
-
-    private String getWebsite(JSONObject j){
+    private String getSportsWebsite(JSONObject j){
         String website = null;
         try{
             website = j.getString(ConfigClass1.TAG_JSON_WEBSITE);
@@ -110,7 +98,7 @@ public class ParseSports {
         return website;
     }
 
-    private String getTitle (JSONObject j){
+    private String getSportsTitle (JSONObject j){
         String title = null;
         try{
             title = j.getString(ConfigClass1.TAG_IMAGE_TITLE);
@@ -120,7 +108,7 @@ public class ParseSports {
         return title;
     }
 
-    private String getURL(JSONObject j){
+    private String getSportsURL(JSONObject j){
         String url = null;
         try{
             url = j.getString(ConfigClass1.TAG_IMAGE_URL);
@@ -130,7 +118,7 @@ public class ParseSports {
         return url;
     }
 
-    private String getContent(JSONObject j){
+    private String getSportsContent(JSONObject j){
         String content = null;
         try{
             content = j.getString(ConfigClass1.TAG_JSON_CONTENT);

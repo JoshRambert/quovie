@@ -63,12 +63,11 @@ public class ParseTechnology {
 
             for (int i = 0; i < array.length(); i++){
                 JSONObject j = array.getJSONObject(i);
-                ConfigClass1.techTitles[i] = getTitle(j);
-                ConfigClass1.techAuthors[i] = getAuthor(j);
-                ConfigClass1.techContent[i] = getContent(j);
-                ConfigClass1.techWebsites[i] = getWebsite(j);
-                ConfigClass1.techUrlImages[i] = getURL(j);
-                ConfigClass1.techDate[i] = getDate(j);
+                ConfigClass1.techTitles[i] = getTechTitle(j);
+                ConfigClass1.techAuthors[i] = getTechAuthor(j);
+                ConfigClass1.techContent[i] = getTechContent(j);
+                ConfigClass1.techWebsites[i] = getTechWebsite(j);
+                ConfigClass1.techUrlImages[i] = getTechURL(j);
             }
         } catch (JSONException e){
             e.printStackTrace();
@@ -79,7 +78,7 @@ public class ParseTechnology {
      * Create the methods that will parse the JSONObjects from each of the different arrays
      */
 
-    private String getAuthor(JSONObject j){
+    private String getTechAuthor(JSONObject j){
         String author = null;
         try{
             author = j.getString(ConfigClass1.TAG_JSON_AUTHOR);
@@ -89,17 +88,7 @@ public class ParseTechnology {
         return author;
     }
 
-    private String getDate(JSONObject j){
-        String date = null;
-        try {
-            date = j.getString(ConfigClass1.TAG_JSON_DATE);
-        } catch (JSONException e){
-            e.printStackTrace();
-        }
-        return date;
-    }
-
-    private String getWebsite(JSONObject j){
+    private String getTechWebsite(JSONObject j){
         String website = null;
         try{
             website = j.getString(ConfigClass1.TAG_JSON_WEBSITE);
@@ -109,7 +98,7 @@ public class ParseTechnology {
         return website;
     }
 
-    private String getTitle (JSONObject j){
+    private String getTechTitle (JSONObject j){
         String title = null;
         try{
             title = j.getString(ConfigClass1.TAG_IMAGE_TITLE);
@@ -119,7 +108,7 @@ public class ParseTechnology {
         return title;
     }
 
-    private String getURL(JSONObject j){
+    private String getTechURL(JSONObject j){
         String url = null;
         try{
             url = j.getString(ConfigClass1.TAG_IMAGE_URL);
@@ -129,7 +118,7 @@ public class ParseTechnology {
         return url;
     }
 
-    private String getContent(JSONObject j){
+    private String getTechContent(JSONObject j){
         String content = null;
         try{
             content = j.getString(ConfigClass1.TAG_JSON_CONTENT);

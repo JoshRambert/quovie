@@ -17,7 +17,7 @@
         <activity
             android:name=".QuovieMainActivity"
             android:label="@string/app_name"
-            android:theme="@style/ProfileDarkTheme">
+            android:theme="@style/QuovieThemeDark.NoActionbar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,6 +34,7 @@
         <activity
             android:name=".ProfileActivity"
             android:parentActivityName=".QuovieMainActivity"></activity>
+
         <activity android:name=".NewsClasses.SportsActivity"></activity>
     </application>
 

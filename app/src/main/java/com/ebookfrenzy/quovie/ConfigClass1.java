@@ -14,7 +14,6 @@ public class ConfigClass1 {
     public static String[] sportsWebsite;
     public static Bitmap[] sportsBitmaps;
     public static String[] sportsAuthors;
-    public static String[] sportsDate;
 
     public static String[] techTitles;
     public static String[] techUrlImages;
@@ -22,7 +21,6 @@ public class ConfigClass1 {
     public static String[] techWebsites;
     public static Bitmap[] techBitmaps;
     public static String[] techAuthors;
-    public static String[] techDate;
 
     public static String[] financeTitles;
     public static String[] financeUrlImages;
@@ -30,7 +28,6 @@ public class ConfigClass1 {
     public static String[] financeWebsites;
     public static Bitmap[] financeBitmaps;
     public static String[] financeAuthors;
-    public static String[] financeDate;
 
     public static String[] lsTitles;
     public static String[] lsUrlImages;
@@ -38,7 +35,6 @@ public class ConfigClass1 {
     public static String[] lsWebsites;
     public static Bitmap[] lsBitmaps;
     public static String[] lsAuthors;
-    public static String[] lsDate;
 
     //Create variables to hold different types of APIS in
     static String shortSports = "https://newsapi.org/v2/top-headlines?sources=espn&apiKey=b58181b5d3674ec38753867894405f2c";
@@ -66,7 +62,6 @@ public class ConfigClass1 {
     public static final String TAG_JSON_CONTENT = "description";
     public static final String TAG_JSON_WEBSITE = "url";
     public static final String TAG_JSON_AUTHOR = "author";
-    public static final String TAG_JSON_DATE = "publishedAt";
 
 
     public ConfigClass1(int i){
@@ -76,7 +71,6 @@ public class ConfigClass1 {
         sportsBitmaps = new Bitmap[i];
         sportsWebsite = new String[i];
         sportsAuthors = new String[i];
-        sportsDate = new String[i];
 
         techTitles =  new String[i];
         techUrlImages = new String[i];
@@ -84,7 +78,6 @@ public class ConfigClass1 {
         techBitmaps = new Bitmap[i];
         techWebsites = new String[i];
         techAuthors = new String[i];
-        techDate = new String[i];
 
         financeTitles = new String[i];
         financeUrlImages = new String[i];
@@ -92,7 +85,6 @@ public class ConfigClass1 {
         financeBitmaps = new Bitmap[i];
         financeWebsites = new String[i];
         financeAuthors = new String[i];
-        financeDate = new String[i];
 
         lsTitles = new String[i];
         lsUrlImages = new String[i];
@@ -100,7 +92,6 @@ public class ConfigClass1 {
         lsBitmaps = new Bitmap[i];
         lsWebsites = new String[i];
         lsAuthors = new String[i];
-        lsDate = new String[i];
     }
 
     //Create the database arrays to store the values
@@ -109,5 +100,4 @@ public class ConfigClass1 {
     public static String[] dbContent;
     public static String[] dbWebsite;
     public static String[] dbAuthors;
-    public static String[] dbDates;
 }

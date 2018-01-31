@@ -63,12 +63,11 @@ public class ParseFinance {
 
             for (int i = 0; i < array.length(); i++){
                 JSONObject j = array.getJSONObject(i);
-                ConfigClass1.financeTitles[i] = getTitle(j);
-                ConfigClass1.financeAuthors[i] = getAuthor(j);
-                ConfigClass1.financeContent[i] = getContent(j);
-                ConfigClass1.financeWebsites[i] = getWebsite(j);
-                ConfigClass1.financeUrlImages[i] = getURL(j);
-                ConfigClass1.financeDate[i] = getDate(j);
+                ConfigClass1.financeTitles[i] = getFinanceTitle(j);
+                ConfigClass1.financeAuthors[i] = getFinanceAuthor(j);
+                ConfigClass1.financeContent[i] = getFinanceContent(j);
+                ConfigClass1.financeWebsites[i] = getFinanceWebsite(j);
+                ConfigClass1.financeUrlImages[i] = getFinanceURL(j);
 
             }
         } catch (JSONException e) {
@@ -80,7 +79,7 @@ public class ParseFinance {
      * Create methods that will parse the JSONObjects into strings
      */
 
-    private String getAuthor(JSONObject j){
+    private String getFinanceAuthor(JSONObject j){
         String author = null;
         try{
             author = j.getString(ConfigClass1.TAG_JSON_AUTHOR);
@@ -90,17 +89,7 @@ public class ParseFinance {
         return author;
     }
 
-    private String getDate(JSONObject j){
-        String date = null;
-        try{
-            date = j.getString(ConfigClass1.TAG_JSON_DATE);
-        } catch (JSONException e){
-            e.printStackTrace();
-        }
-        return date;
-    }
-
-    private String getWebsite(JSONObject j){
+    private String getFinanceWebsite(JSONObject j){
         String website = null;
         try{
             website = j.getString(ConfigClass1.TAG_JSON_WEBSITE);
@@ -110,7 +99,7 @@ public class ParseFinance {
         return website;
     }
 
-    private String getTitle(JSONObject j){
+    private String getFinanceTitle(JSONObject j){
         String title = null;
         try{
             title = j.getString(ConfigClass1.TAG_IMAGE_TITLE);
@@ -120,7 +109,7 @@ public class ParseFinance {
         return title;
     }
 
-    private String getURL(JSONObject j){
+    private String getFinanceURL(JSONObject j){
         String url = null;
         try{
             url = j.getString(ConfigClass1.TAG_IMAGE_URL);
@@ -130,7 +119,7 @@ public class ParseFinance {
         return url;
     }
 
-    private String getContent(JSONObject j){
+    private String getFinanceContent(JSONObject j){
         String content = null;
         try{
             content = j.getString(ConfigClass1.TAG_JSON_CONTENT);

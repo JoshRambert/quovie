@@ -6,7 +6,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
+    android:theme="@style/QuovieThemeDark.NoActionbar"
     tools:context="com.ebookfrenzy.quovie.QuovieMainActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        app:popupTheme="@android:style/Theme.Black" />
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -17,20 +25,6 @@
         app:itemTextColor="#ffffff"
         app:menu="@menu/bottom_navigation_menu"
         android:layout_alignParentBottom="true" />
-
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#73000000"
-        android:theme="@style/QuovieThemeDark.NoActionbar">
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="43dp"
-                app:popupTheme="@android:style/Theme.Black" />
-
-    </android.support.design.widget.AppBarLayout>
 
     <include
         layout="@layout/content_quovie_main"

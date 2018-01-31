@@ -25,6 +25,7 @@ public class SportsActivity extends AppCompatActivity {
         SportsRecyclerView.setLayoutManager(SportsLayoutManager);
 
         //Display the data from the database
-
     }
+
+
 }

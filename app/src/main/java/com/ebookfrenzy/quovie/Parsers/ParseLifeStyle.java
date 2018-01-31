@@ -66,12 +66,11 @@ public class ParseLifeStyle {
 
             for (int i = 0; i < array.length(); i++){
                 JSONObject j = array.getJSONObject(i);
-                ConfigClass1.lsTitles[i] = getTitle(j);
-                ConfigClass1.lsAuthors[i] = getAuthor(j);
-                ConfigClass1.lsContent[i] = getContent(j);
-                ConfigClass1.lsWebsites[i] = getWebsite(j);
-                ConfigClass1.lsUrlImages[i] = getURL(j);
-                ConfigClass1.lsDate[i] = getDate(j);
+                ConfigClass1.lsTitles[i] = getLSTitle(j);
+                ConfigClass1.lsAuthors[i] = getLSAuthor(j);
+                ConfigClass1.lsContent[i] = getLSContent(j);
+                ConfigClass1.lsWebsites[i] = getLSWebsite(j);
+                ConfigClass1.lsUrlImages[i] = getLSURL(j);
             }
         } catch (JSONException e){
             e.printStackTrace();
@@ -82,7 +81,7 @@ public class ParseLifeStyle {
      * Create the methods that will parse the JSONObjects into strings
      */
 
-    private String getAuthor(JSONObject j){
+    private String getLSAuthor(JSONObject j){
         String author = null;
         try{
             author = j.getString(ConfigClass1.TAG_JSON_AUTHOR);
@@ -92,17 +91,7 @@ public class ParseLifeStyle {
         return author;
     }
 
-    private String getDate(JSONObject j){
-        String date = null;
-        try{
-            date = j.getString(ConfigClass1.TAG_JSON_DATE);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return date;
-    }
-
-    private String getWebsite(JSONObject j){
+    private String getLSWebsite(JSONObject j){
         String website = null;
         try{
             website = j.getString(ConfigClass1.TAG_JSON_WEBSITE);
@@ -112,7 +101,7 @@ public class ParseLifeStyle {
         return website;
     }
 
-    private String getTitle(JSONObject j){
+    private String getLSTitle(JSONObject j){
         String title = null;
         try{
             title = j.getString(ConfigClass1.TAG_IMAGE_TITLE);
@@ -122,7 +111,7 @@ public class ParseLifeStyle {
         return title;
     }
 
-    private String getURL(JSONObject j){
+    private String getLSURL(JSONObject j){
         String url = null;
         try{
             url = j.getString(ConfigClass1.TAG_IMAGE_URL);
@@ -132,7 +121,7 @@ public class ParseLifeStyle {
         return url;
     }
 
-    private String getContent(JSONObject j){
+    private String getLSContent(JSONObject j){
         String content = null;
         try{
             content = j.getString(ConfigClass1.TAG_JSON_CONTENT);

@@ -32,7 +32,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
     List<ListItem> items;
 
-    public CardAdapter(String[] webSite, String[] titles, String[] urls, Bitmap[] images, String[] Content, String[] author, String[] date) {
+    public CardAdapter(String[] webSite, String[] titles, String[] urls, Bitmap[] images, String[] Content, String[] author) {
         super();
         items = new ArrayList<ListItem>();
         for (int i = 0; i < 9; i++) {
@@ -43,7 +43,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             item.setContent(Content[i]);
             item.setWebSite(webSite[i]);
             item.setAuthor(author[i]);
-            item.setDate(date[i]);
             items.add(item);
         }
     }
@@ -68,7 +67,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         holder.textViewWebSite.setText(list.getWebsite());
         holder.textViewContent.setText(list.getContent());
         holder.textViewAuthor.setText(list.getAuthor());
-        holder.textViewDate.setText(list.getDate());
     }
 
     @Override
@@ -85,7 +83,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         public TextView textViewWebSite;
         public TextView textViewContent;
         public TextView textViewAuthor;
-        public TextView textViewDate;
 
         public ViewHolder(View itemView){
             super(itemView);
@@ -96,7 +93,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             textViewContent = (TextView)itemView.findViewById(R.id.textViewContent);
             textViewWebSite = (TextView)itemView.findViewById(R.id.webSiteView);
             textViewAuthor = (TextView)itemView.findViewById(R.id.author);
-            textViewDate = (TextView)itemView.findViewById(R.id.date);
 
             //in order to add an onclick listener for each card the viewHolder method
             //must be edited to do so...edit the itemView variable

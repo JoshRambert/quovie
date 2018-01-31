@@ -140,7 +140,7 @@ public class FinanceFragment extends Fragment {
 
     public void showData(){
         //set the adapter to the recycler adapter
-        FinanceAdapter = new CardAdapter(ConfigClass1.dbWebsite, ConfigClass1.dbTitles, ConfigClass1.dbUrlImages, ConfigClass1.financeBitmaps, ConfigClass1.dbContent, ConfigClass1.dbAuthors, ConfigClass1.dbDates);
+        FinanceAdapter = new CardAdapter(ConfigClass1.dbWebsite, ConfigClass1.dbTitles, ConfigClass1.dbUrlImages, ConfigClass1.financeBitmaps, ConfigClass1.dbContent, ConfigClass1.dbAuthors);
         FinanceRecyclerView.setAdapter(FinanceAdapter);
     }
 
@@ -231,22 +231,6 @@ public class FinanceFragment extends Fragment {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.d("", "Error getting the websites from the database");
-            }
-        });
-
-        DatabaseReference mDates = mFinanceRef.child("Dates");
-        mDates.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<String> dates = (ArrayList<String>) dataSnapshot.getValue();
-
-                String[] mDates = dates.toArray(new String[dates.size()]);
-                ConfigClass1.dbDates = mDates.clone();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d("", "Error getting the dates from the database");
             }
         });
     }

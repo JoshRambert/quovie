@@ -16,7 +16,6 @@ public class ListItem {
     private Bitmap image;
     private String webSite;
     private String author;
-    private String date;
 
     public String getWebsite(){
         return webSite;
@@ -65,14 +64,5 @@ public class ListItem {
     public void setAuthor(String author){
         this.author = author;
     }
-
-    public String getDate(){
-        return date;
-    }
-
-    public void setDate(String date){
-        this.date = date;
-    }
-
 }
 
