@@ -36,7 +36,24 @@ public class ConfigClass1 {
     public static Bitmap[] lsBitmaps;
     public static String[] lsAuthors;
 
-    //Create variables to hold different types of APIS in
+    public static String[] foxTitles;
+    public static String[] foxUrlImages;
+    public static String[] foxContent;
+    public static String[] foxWebsites;
+    public static Bitmap[] foxBitmaps;
+    public static String[] foxAuthors;
+
+    public static String[] bbcTitles;
+    public static String[] bbcUrlImages;
+    public static String[] bbcContent;
+    public static String[] bbcWebsites;
+    public static Bitmap[] bbcBitmaps;
+    public static String[] bbcAuthors;
+
+    //Create variables to hold different types of APIS in TODO: Create the parse clases for the added news sources then ad them to the database
+    static String foxNews = "https://newsapi.org/v2/top-headlines?sources=fox-news&apiKey=b58181b5d3674ec38753867894405f2c";
+    static String bbcNews = "https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=b58181b5d3674ec38753867894405f2c";
+
     static String shortSports = "https://newsapi.org/v2/top-headlines?sources=espn&apiKey=b58181b5d3674ec38753867894405f2c";
     static String longSports = "https://newsapi.org/v2/everything?sources=espn&apiKey=b58181b5d3674ec38753867894405f2c";
 
@@ -54,6 +71,7 @@ public class ConfigClass1 {
     public static final String GET_TECH = shortTech;
     public static final String GET_LIFESTYLE = shortLS;
     public static final String GET_FINANCE = shortFinance;
+    public static final String GET_FOX = foxNews;
 
     //for parsing the JSON
     public static final String TAG_IMAGE_URL = "urlToImage";
@@ -92,6 +110,20 @@ public class ConfigClass1 {
         lsBitmaps = new Bitmap[i];
         lsWebsites = new String[i];
         lsAuthors = new String[i];
+
+        foxTitles = new String[i];
+        foxUrlImages = new String[i];
+        foxContent = new String[i];
+        foxBitmaps = new Bitmap[i];
+        foxWebsites = new String[i];
+        foxAuthors = new String[i];
+
+        bbcTitles = new String[i];
+        bbcUrlImages = new String[i];
+        bbcContent = new String[i];
+        bbcBitmaps = new Bitmap[i];
+        bbcWebsites = new String[i];
+        bbcAuthors = new String[i];
     }
 
     //Create the database arrays to store the values

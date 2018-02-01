@@ -7,10 +7,14 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.ebookfrenzy.quovie.Parsers.ParseFinance;
 import com.ebookfrenzy.quovie.Parsers.ParseLifeStyle;
@@ -45,6 +49,8 @@ public class QuovieMainActivity extends AppCompatActivity
 
     private FirebaseAuth mAuth;
 
+    GridLayout gridLayout;
+
     /**
      * TODO: Then we are going to create a grid view in which the user will be able to access other news topics
      * TODO: Or specific sources
@@ -68,6 +74,9 @@ public class QuovieMainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        gridLayout = (GridLayout)findViewById(R.id.gridLayout);
+        setSingleEvent(gridLayout);
+
         //write and read the data
         writeSportsData();
 
@@ -76,6 +85,19 @@ public class QuovieMainActivity extends AppCompatActivity
         writeLifestyleData();
 
         writeFinanceData();
+    }
+
+    private void setSingleEvent(GridLayout gridLayout) {
+        //loop all of the children in the gridlayout
+        for (int i = 0; i < gridLayout.getChildCount(); i++){
+            CardView cardView = (CardView)gridLayout.getChildAt(i);
+            cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(QuovieMainActivity.this, "Clicked at index", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     @Override
