@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.ebookfrenzy.quovie.ConfigClass1;
+import com.ebookfrenzy.quovie.DisplayNewsActivity;
 
 import java.net.URL;
 /**
@@ -19,6 +20,8 @@ public class GetBitmap extends AsyncTask<Void,Void,Void> {
     private Context context;
     private String[] urlImages;
     private ProgressBar progressBar;
+
+    DisplayNewsActivity dp = new DisplayNewsActivity();
 
     public GetBitmap(Context context, String[] urls, ProgressBar progressBar){
         //get the bitmap
@@ -36,13 +39,14 @@ public class GetBitmap extends AsyncTask<Void,Void,Void> {
     @Override
     protected void onPostExecute(Void aVoid){
         super.onPostExecute(aVoid);
+        dp.showData();
         progressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override
     protected Void doInBackground(Void...params){
         for(int i = 0; i< urlImages.length; i++){
-            ConfigClass1.sportsBitmaps[i] = getImage(urlImages[i]);
+            ConfigClass1.newsBitmaps[i] = getImage(urlImages[i]);
         }
         return null;
     }

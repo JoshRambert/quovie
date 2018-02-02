@@ -50,6 +50,9 @@ public class ConfigClass1 {
     public static Bitmap[] bbcBitmaps;
     public static String[] bbcAuthors;
 
+    //think this should work but lets try
+    public static Bitmap[] newsBitmaps;
+
     //Create variables to hold different types of APIS in TODO: Create the parse clases for the added news sources then ad them to the database
     static String foxNews = "https://newsapi.org/v2/top-headlines?sources=fox-news&apiKey=b58181b5d3674ec38753867894405f2c";
     static String bbcNews = "https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=b58181b5d3674ec38753867894405f2c";

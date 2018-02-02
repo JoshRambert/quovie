@@ -5,17 +5,17 @@
 
 
     <item
-        app:showAsAction="ifRoom"
-        android:enabled="true"
-        android:title="Hot News"
-        android:id="@+id/to_hot_news"
-        android:icon="@drawable/ic_whats_hot" />
-    <item
         android:icon="@drawable/ic_to_home"
         android:enabled="true"
         app:showAsAction="ifRoom"
         android:title="Home"
         android:id="@+id/to_home" />
+    <item
+        app:showAsAction="ifRoom"
+        android:enabled="true"
+        android:title="Hot News"
+        android:id="@+id/to_hot_news"
+        android:icon="@drawable/ic_whats_hot" />
     <item
         android:id="@+id/to_profile"
         android:enabled="true"

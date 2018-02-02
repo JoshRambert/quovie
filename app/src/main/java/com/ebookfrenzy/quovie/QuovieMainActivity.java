@@ -49,12 +49,16 @@ public class QuovieMainActivity extends AppCompatActivity
 
     private FirebaseAuth mAuth;
 
+    //The Numbers for the CardView -- TODO: Create the intents for each of the click events on the card view
+    public static final int SPORTS = 0;
+    public static final int TECH = 1;
+    public static final int LS = 2;
+    public static final int FINANCE = 3;
+    public static final int FOXNEWS = 4;
+    public static final int BBCNEWS = 5;
+
     GridLayout gridLayout;
 
-    /**
-     * TODO: Then we are going to create a grid view in which the user will be able to access other news topics
-     * TODO: Or specific sources
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

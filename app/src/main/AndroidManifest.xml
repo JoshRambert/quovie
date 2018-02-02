@@ -33,9 +33,9 @@
             android:theme="@style/ProfileDarkTheme" />
         <activity
             android:name=".ProfileActivity"
-            android:parentActivityName=".QuovieMainActivity"></activity>
-
-        <activity android:name=".NewsClasses.SportsActivity"></activity>
+            android:parentActivityName=".QuovieMainActivity" />
+        <activity android:name=".NewsClasses.SportsActivity" />
+        <activity android:name=".DisplayNewsActivity"></activity>
     </application>
 
 </manifest>
