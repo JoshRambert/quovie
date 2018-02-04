@@ -75,6 +75,7 @@ public class ConfigClass1 {
     public static final String GET_LIFESTYLE = shortLS;
     public static final String GET_FINANCE = shortFinance;
     public static final String GET_FOX = foxNews;
+    public static final String GET_BBC = bbcNews;
 
     //for parsing the JSON
     public static final String TAG_IMAGE_URL = "urlToImage";

@@ -1,5 +1,6 @@
 package com.ebookfrenzy.quovie.Parsers;
 
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
 import com.ebookfrenzy.quovie.ConfigClass1;
@@ -9,48 +10,47 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by joshuarambert on 1/23/18.
+ * Created by joshuarambert on 2/2/18.
  */
 
-public class ParseLifeStyle {
-
+public class ParseFox {
     private ConfigClass1 config;
 
-    public void lifestyleData(){
-        class LifeStyleData extends AsyncTask<Void, Void, String>{
+    public void foxData(){
+        class FoxData extends AsyncTask<Void, Void, String>{
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                parseJSON(s);
+            }
+
             @Override
             protected String doInBackground(Void... voids) {
                 BufferedReader br = null;
                 try{
-                    URL url = new URL(ConfigClass1.GET_LIFESTYLE);
+                    URL url = new URL(ConfigClass1.GET_FOX);
                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
                     StringBuilder sb = new StringBuilder();
                     String json;
 
                     br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                    while ((json = br.readLine()) != null){
+                    while((json = br.readLine()) != null){
                         sb.append(json + "\n");
                     }
                     return sb.toString().trim();
                 } catch (Exception e){
                     return null;
-
                 }
             }
-
-            @Override
-            protected void onPostExecute(String s){
-                super.onPostExecute(s);
-                parseJSON(s);
-            }
         }
-        LifeStyleData ls = new LifeStyleData();
-        ls.execute();
+        FoxData fd = new FoxData();
+        fd.execute();
     }
 
     private void parseJSON(String json){
@@ -62,22 +62,20 @@ public class ParseLifeStyle {
 
             for (int i = 0; i < array.length(); i++){
                 JSONObject j = array.getJSONObject(i);
-                ConfigClass1.lsTitles[i] = getLSTitle(j);
-                ConfigClass1.lsAuthors[i] = getLSAuthor(j);
-                ConfigClass1.lsContent[i] = getLSContent(j);
-                ConfigClass1.lsWebsites[i] = getLSWebsite(j);
-                ConfigClass1.lsUrlImages[i] = getLSURL(j);
+                ConfigClass1.foxTitles[i] = getFoxTitles(j);
+                ConfigClass1.foxAuthors[i] = getFoxAuthor(j);
+                ConfigClass1.foxContent[i] = getFoxContent(j);
+                ConfigClass1.foxWebsites[i] = getFoxWebsites(j);
+                ConfigClass1.foxUrlImages[i] = getFoxUrls(j);
             }
         } catch (JSONException e){
             e.printStackTrace();
         }
     }
 
-    /**
-     * Create the methods that will parse the JSONObjects into strings
-     */
+    //Create the methods that will parse the josnObject from the JSON Array
 
-    private String getLSAuthor(JSONObject j){
+    private String getFoxAuthor(JSONObject j){
         String author = null;
         try{
             author = j.getString(ConfigClass1.TAG_JSON_AUTHOR);
@@ -87,7 +85,7 @@ public class ParseLifeStyle {
         return author;
     }
 
-    private String getLSWebsite(JSONObject j){
+    private String getFoxWebsites(JSONObject j){
         String website = null;
         try{
             website = j.getString(ConfigClass1.TAG_JSON_WEBSITE);
@@ -97,7 +95,7 @@ public class ParseLifeStyle {
         return website;
     }
 
-    private String getLSTitle(JSONObject j){
+    private String getFoxTitles (JSONObject j){
         String title = null;
         try{
             title = j.getString(ConfigClass1.TAG_IMAGE_TITLE);
@@ -107,17 +105,17 @@ public class ParseLifeStyle {
         return title;
     }
 
-    private String getLSURL(JSONObject j){
-        String url = null;
-        try{
-            url = j.getString(ConfigClass1.TAG_IMAGE_URL);
+    private String getFoxUrls (JSONObject j){
+        String urls = null;
+        try {
+            urls = j.getString(ConfigClass1.TAG_IMAGE_URL);
         } catch (JSONException e){
             e.printStackTrace();
         }
-        return url;
+        return urls;
     }
 
-    private String getLSContent(JSONObject j){
+    private String getFoxContent (JSONObject j){
         String content = null;
         try{
             content = j.getString(ConfigClass1.TAG_JSON_CONTENT);

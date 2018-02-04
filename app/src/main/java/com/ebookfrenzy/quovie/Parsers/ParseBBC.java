@@ -4,8 +4,8 @@ import android.os.AsyncTask;
 
 import com.ebookfrenzy.quovie.ConfigClass1;
 
-import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -14,45 +14,44 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by joshuarambert on 1/23/18.
+ * Created by joshuarambert on 2/2/18.
  */
 
-public class ParseLifeStyle {
-
+//This class will be able to parse the BBC API
+public class ParseBBC {
     private ConfigClass1 config;
 
-    public void lifestyleData(){
-        class LifeStyleData extends AsyncTask<Void, Void, String>{
+    public void bbcData(){
+        class BBCData extends AsyncTask<Void, Void, String>{
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                parseJSON(s);
+            }
             @Override
             protected String doInBackground(Void... voids) {
                 BufferedReader br = null;
                 try{
-                    URL url = new URL(ConfigClass1.GET_LIFESTYLE);
+                    URL url = new URL(ConfigClass1.GET_BBC);
                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
                     StringBuilder sb = new StringBuilder();
                     String json;
 
                     br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                    while ((json = br.readLine()) != null){
+                    while((json = br.readLine()) != null){
                         sb.append(json + "\n");
                     }
                     return sb.toString().trim();
-                } catch (Exception e){
+                } catch (Exception e) {
                     return null;
-
                 }
             }
-
-            @Override
-            protected void onPostExecute(String s){
-                super.onPostExecute(s);
-                parseJSON(s);
-            }
         }
-        LifeStyleData ls = new LifeStyleData();
-        ls.execute();
+        BBCData bc = new BBCData();
+        bc.execute();
     }
 
+    //Parse the JSON
     private void parseJSON(String json){
         try{
             JSONObject jsonObject = new JSONObject(json);
@@ -62,22 +61,20 @@ public class ParseLifeStyle {
 
             for (int i = 0; i < array.length(); i++){
                 JSONObject j = array.getJSONObject(i);
-                ConfigClass1.lsTitles[i] = getLSTitle(j);
-                ConfigClass1.lsAuthors[i] = getLSAuthor(j);
-                ConfigClass1.lsContent[i] = getLSContent(j);
-                ConfigClass1.lsWebsites[i] = getLSWebsite(j);
-                ConfigClass1.lsUrlImages[i] = getLSURL(j);
+                ConfigClass1.bbcTitles[i] = getBBCTitle(j);
+                ConfigClass1.bbcAuthors[i] = getBBCAuthor(j);
+                ConfigClass1.bbcContent[i] = getBBCContent(j);
+                ConfigClass1.bbcWebsites[i] = getBBCWebsite(j);
+                ConfigClass1.bbcUrlImages[i] = getBBCUrls(j);
             }
         } catch (JSONException e){
             e.printStackTrace();
         }
     }
 
-    /**
-     * Create the methods that will parse the JSONObjects into strings
-     */
+    //Create the methods that will be used to get the string from the JSONObjects
 
-    private String getLSAuthor(JSONObject j){
+    private String getBBCAuthor(JSONObject j){
         String author = null;
         try{
             author = j.getString(ConfigClass1.TAG_JSON_AUTHOR);
@@ -87,7 +84,7 @@ public class ParseLifeStyle {
         return author;
     }
 
-    private String getLSWebsite(JSONObject j){
+    private String getBBCWebsite(JSONObject j){
         String website = null;
         try{
             website = j.getString(ConfigClass1.TAG_JSON_WEBSITE);
@@ -97,7 +94,7 @@ public class ParseLifeStyle {
         return website;
     }
 
-    private String getLSTitle(JSONObject j){
+    private String getBBCTitle(JSONObject j){
         String title = null;
         try{
             title = j.getString(ConfigClass1.TAG_IMAGE_TITLE);
@@ -107,7 +104,7 @@ public class ParseLifeStyle {
         return title;
     }
 
-    private String getLSURL(JSONObject j){
+    private String getBBCUrls (JSONObject j){
         String url = null;
         try{
             url = j.getString(ConfigClass1.TAG_IMAGE_URL);
@@ -117,7 +114,7 @@ public class ParseLifeStyle {
         return url;
     }
 
-    private String getLSContent(JSONObject j){
+    private String getBBCContent (JSONObject j){
         String content = null;
         try{
             content = j.getString(ConfigClass1.TAG_JSON_CONTENT);

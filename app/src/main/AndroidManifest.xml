@@ -35,7 +35,10 @@
             android:name=".ProfileActivity"
             android:parentActivityName=".QuovieMainActivity" />
         <activity android:name=".NewsClasses.SportsActivity" />
-        <activity android:name=".DisplayNewsActivity"></activity>
+        <activity
+            android:name=".DisplayNewsActivity"
+            android:parentActivityName=".QuovieMainActivity">
+        </activity>
     </application>
 
 </manifest>

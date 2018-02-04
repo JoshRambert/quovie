@@ -10,7 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toolbar;
+import android.support.v7.widget.Toolbar;
 
 import com.ebookfrenzy.quovie.Bitmaps.GetBitmap;
 import com.google.firebase.database.DataSnapshot;
@@ -29,6 +29,9 @@ public class DisplayNewsActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager NewsLayoutManager;
     private RecyclerView.Adapter NewsAdapter;
 
+    public String userSelectedRef;
+    DatabaseReference mUserSelectedRef;
+
     ProgressBar progressBar;
 
     private ConfigClass1 config;
@@ -39,10 +42,19 @@ public class DisplayNewsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_news);
 
+        //Recieve the data then make sure that the value is not null
+        Bundle data = getIntent().getExtras();
+        if (data == null) {
+            return;
+        }
+        userSelectedRef = data.getString("Database Reference");
+        DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+        mUserSelectedRef = mRootRef.child(userSelectedRef);
+
         //Initialize the toolbar from the layout
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbarDisplayNews);
+        toolbar.setTitle(userSelectedRef);
         //set the title of the toolbar depending on which news source was clicked
-        setActionBar(toolbar);
 
         progressBar = (ProgressBar)findViewById(R.id.NewsProgressBar);
 
@@ -87,10 +99,6 @@ public class DisplayNewsActivity extends AppCompatActivity {
         NewsRecyclerView.setAdapter(NewsAdapter);
     }
 
-
-    DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
-    //this is where the custom reference will go depending on what the user selected
-    DatabaseReference mUserSelectedRef = mRootRef.child("Intent data");
 
     private void readNewsData(){
         DatabaseReference mTitlesRef = mUserSelectedRef.child("Titles");
