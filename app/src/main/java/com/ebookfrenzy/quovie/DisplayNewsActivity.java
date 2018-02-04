@@ -25,11 +25,11 @@ import java.util.ArrayList;
 public class DisplayNewsActivity extends AppCompatActivity {
 
     //Create the variables that are from the layout
-    private RecyclerView NewsRecyclerView;
-    private RecyclerView.LayoutManager NewsLayoutManager;
-    private RecyclerView.Adapter NewsAdapter;
+    public RecyclerView NewsRecyclerView;
+    public RecyclerView.LayoutManager NewsLayoutManager;
+    public RecyclerView.Adapter NewsAdapter;
 
-    public String userSelectedRef;
+    public String userSelectedNews;
     DatabaseReference mUserSelectedRef;
 
     ProgressBar progressBar;
@@ -42,23 +42,26 @@ public class DisplayNewsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_news);
 
-        //Recieve the data then make sure that the value is not null
+        //Receive the data then make sure that the value is not null
         Bundle data = getIntent().getExtras();
         if (data == null) {
             return;
         }
-        userSelectedRef = data.getString("Database Reference");
+        userSelectedNews = data.getString("Database Reference");
         DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
-        mUserSelectedRef = mRootRef.child(userSelectedRef);
+        DatabaseReference mNewsRef = mRootRef.child("News");
+        //Remove the first character of the string because it is a backslash
+        mUserSelectedRef = mNewsRef.child(userSelectedNews);
 
         //Initialize the toolbar from the layout
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbarDisplayNews);
-        toolbar.setTitle(userSelectedRef);
+        toolbar.setTitle(userSelectedNews);
         //set the title of the toolbar depending on which news source was clicked
 
         progressBar = (ProgressBar)findViewById(R.id.NewsProgressBar);
 
-        NewsRecyclerView = (RecyclerView)findViewById(R.id.NewsRecycler_View);
+        //Setup the recycler in this method
+        NewsRecyclerView = (RecyclerView) findViewById(R.id.NewsRecycler_View);
         NewsRecyclerView.setHasFixedSize(true);
 
         //get the linear Layout manager

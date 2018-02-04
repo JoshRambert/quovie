@@ -128,6 +128,8 @@ public class ConfigClass1 {
         bbcBitmaps = new Bitmap[i];
         bbcWebsites = new String[i];
         bbcAuthors = new String[i];
+
+        newsBitmaps = new Bitmap[i];
     }
 
     //Create the database arrays to store the values
