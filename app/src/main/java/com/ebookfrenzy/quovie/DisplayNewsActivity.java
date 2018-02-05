@@ -175,7 +175,7 @@ public class DisplayNewsActivity extends AppCompatActivity {
                 String[] mUrls = urls.toArray(new String[urls.size()]);
                 ConfigClass1.dbUrlImages = mUrls.clone();
 
-                GetBitmap gb = new GetBitmap(DisplayNewsActivity.this, ConfigClass1.dbUrlImages, progressBar);
+                GetBitmap gb = new GetBitmap(DisplayNewsActivity.this, DisplayNewsActivity.this, ConfigClass1.dbUrlImages, progressBar);
                 gb.execute();
             }
 

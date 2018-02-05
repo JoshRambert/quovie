@@ -51,8 +51,8 @@ public class QuovieMainActivity extends AppCompatActivity
     public static final String TECH = "Technology";
     public static final String LS = "Lifestyle";
     public static final String FINANCE = "Finance";
-    public static final int FOXNEWS = 4;
-    public static final int BBCNEWS = 5;
+    public static final String FOXNEWS = "Fox";
+    public static final String BBCNEWS = "BBC";
 
     ImageView sportsImage;
     ImageView techImage;
@@ -189,8 +189,8 @@ public class QuovieMainActivity extends AppCompatActivity
     DatabaseReference mTechRef = mNewsRef.child("Technology");
     DatabaseReference mFinanceRef = mNewsRef.child("Finance");
     DatabaseReference mLifestyleRef = mNewsRef.child("Lifestyle");
-    DatabaseReference mFoxNewsRef = mNewsRef.child("Fox News");
-    DatabaseReference mBBCNewsRef = mNewsRef.child("BBC News");
+    DatabaseReference mFoxNewsRef = mNewsRef.child("Fox");
+    DatabaseReference mBBCNewsRef = mNewsRef.child("BBC");
 
 
     //TODO --  Find a way to write images to the database

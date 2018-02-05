@@ -107,7 +107,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
                     String webSite = textViewWebSite.getText().toString();
 
                     i.putExtra("website", webSite);
-                    ((QuovieMainActivity)context).startActivityForResult(i, request_code);
+                    ((DisplayNewsActivity)context).startActivityForResult(i, request_code);
                 }
             });
         }

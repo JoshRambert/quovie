@@ -20,14 +20,14 @@ public class GetBitmap extends AsyncTask<Void,Void,Void> {
     private Context context;
     private String[] urlImages;
     private ProgressBar progressBar;
+    private DisplayNewsActivity displayNewsActivity;
 
-    DisplayNewsActivity dp = new DisplayNewsActivity();
-
-    public GetBitmap(Context context, String[] urls, ProgressBar progressBar){
+    public GetBitmap(Context context, DisplayNewsActivity displayNewsActivity, String[] urls, ProgressBar progressBar){
         //get the bitmap
         this.context = context;
         this.urlImages = urls;
         this.progressBar = progressBar;
+        this.displayNewsActivity = displayNewsActivity;
     }
 
     @Override
@@ -39,7 +39,7 @@ public class GetBitmap extends AsyncTask<Void,Void,Void> {
     @Override
     protected void onPostExecute(Void aVoid){
         super.onPostExecute(aVoid);
-        dp.showData();
+        displayNewsActivity.showData();
         progressBar.setVisibility(View.INVISIBLE);
     }
 
