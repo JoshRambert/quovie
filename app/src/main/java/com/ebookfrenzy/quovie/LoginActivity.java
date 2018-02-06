@@ -26,6 +26,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mPasswordView;
     private ProgressBar mProgressBar;
 
+    public static String mPassword;
+
     private FirebaseAuth mAuth;
 
     @Override
@@ -81,6 +83,12 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        if (password.contains(".") || password.contains("#") || password.contains("$") || password.contains("[") || password.contains("]")){
+            mPasswordView.setError("Password cannot contain '., #, $, or []'");
+            mPasswordView.requestFocus();
+            return;
+        }
+
         mProgressBar.setVisibility(View.VISIBLE);
 
         //This is when the user officially gets registered
@@ -106,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loginUser(){
         String email = mEmailView.getText().toString().trim();
-        String password = mPasswordView.getText().toString().trim();
+        mPassword = mPasswordView.getText().toString().trim();
 
         if (email.isEmpty()){
             mEmailView.setError("Email is required");
@@ -118,20 +126,20 @@ public class LoginActivity extends AppCompatActivity {
             mEmailView.setError("Invalid email...Please enter a valid email");
         }
 
-        if (password.isEmpty()){
+        if (mPassword.isEmpty()){
             mPasswordView.setError("Password is required");
             mPasswordView.requestFocus();
             return;
         }
 
-        if (password.length() < 8){
+        if (mPassword.length() < 8){
             mPasswordView.setError("Password must be atleast 8 characters long");
             mPasswordView.requestFocus();
             return;
         }
 
         mProgressBar.setVisibility(View.VISIBLE);
-        mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        mAuth.signInWithEmailAndPassword(email,mPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){

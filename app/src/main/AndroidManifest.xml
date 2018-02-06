@@ -32,7 +32,7 @@
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
         <activity
             android:name=".LoginActivity"
-            android:theme="@style/ProfileDarkTheme" />
+            android:theme="@style/QuovieThemeDark.NoActionbar" />
         <activity
             android:name=".ProfileActivity"
             android:parentActivityName=".QuovieMainActivity" />

@@ -20,45 +20,46 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_above="@+id/email"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="53dp"
+        android:layout_marginTop="42dp"
         android:fontFamily="serif-monospace"
         android:text="Quovie"
         android:textAlignment="center"
         android:textColor="@color/accent_material_dark"
         android:textSize="60sp"
-        android:textStyle="italic" />
+        android:textStyle="italic"
+        android:id="@+id/textView" />
 
     <EditText
         android:id="@+id/email"
         android:layout_width="270dp"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/password"
         android:layout_alignStart="@+id/password"
-        android:layout_marginBottom="35dp"
+        android:layout_below="@+id/textView"
+        android:layout_marginTop="61dp"
         android:drawableStart="@drawable/ic_action_profile"
         android:hint="@string/email_login_hint"
-        android:textColorHint="@color/accent_material_dark"
         android:inputType="textEmailAddress"
         android:maxLines="1"
         android:singleLine="true"
-        android:textColor="@color/accent_material_dark" />
+        android:textColor="@color/accent_material_dark"
+        android:textColorHint="@color/accent_material_dark" />
 
     <EditText
-        android:textColorHint="@color/accent_material_dark"
         android:id="@+id/password"
         android:layout_width="270dp"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/login_button"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="33dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/email"
+        android:layout_marginEnd="35dp"
+        android:layout_marginTop="50dp"
         android:drawableStart="@drawable/ic_action_logout"
         android:hint="@string/password_login_hint"
         android:inputType="textPassword"
         android:maxLines="1"
         android:singleLine="true"
-        android:textColor="@color/accent_material_dark" />
+        android:textColor="@color/accent_material_dark"
+        android:textColorHint="@color/accent_material_dark" />
 
     <Button
         android:background="@drawable/button_background"

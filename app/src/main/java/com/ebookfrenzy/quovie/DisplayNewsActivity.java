@@ -10,7 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.support.v7.widget.Toolbar;
+import android.widget.Toolbar;
 
 import com.ebookfrenzy.quovie.Bitmaps.GetBitmap;
 import com.google.firebase.database.DataSnapshot;

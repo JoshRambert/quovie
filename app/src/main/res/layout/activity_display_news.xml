@@ -6,13 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.ebookfrenzy.quovie.DisplayNewsActivity"
-    android:background="@color/primary_text_default_material_light">
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbarDisplayNews"
-        android:layout_width="match_parent"
-        android:layout_height="43dp"
-        app:popupTheme="@android:style/Theme.Black" />
+    android:background="#000000">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/NewsRecycler_View"
@@ -26,5 +20,11 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:id="@+id/NewsProgressBar"/>
+
+    <android.widget.Toolbar
+        android:id="@+id/toolbarDisplayNews"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:background="#bf000000"/>
 
 </RelativeLayout>

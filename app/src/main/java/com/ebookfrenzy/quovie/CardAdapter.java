@@ -9,13 +9,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.design.widget.Snackbar;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.w3c.dom.Text;
 
@@ -26,9 +30,18 @@ import java.util.List;
  * Created by Rambo on 7/8/17.
  */
 
+//TODO: Gathers the users saved articles and store them in the firebase by making their email a child of the User reference
+// TODO which is a child of the root reference -- get the public emial string from the login page
+
+
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     //create the request Code for the Intent Object
     private static final int request_code = 5;
+
+    //Create the variables that will be used for saving the data
+    String userID = LoginActivity.mPassword;
+    public static List titlesList = new ArrayList();
+    public static List contentList = new ArrayList();
 
     List<ListItem> items;
 
@@ -83,6 +96,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         public TextView textViewWebSite;
         public TextView textViewContent;
         public TextView textViewAuthor;
+        public Button saveButton;
 
         public ViewHolder(View itemView){
             super(itemView);
@@ -93,6 +107,14 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             textViewContent = (TextView)itemView.findViewById(R.id.textViewContent);
             textViewWebSite = (TextView)itemView.findViewById(R.id.webSiteView);
             textViewAuthor = (TextView)itemView.findViewById(R.id.author);
+            saveButton = (Button)itemView.findViewById(R.id.saveButton);
+
+            saveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    saveInfo();
+                }
+            });
 
             //in order to add an onclick listener for each card the viewHolder method
             //must be edited to do so...edit the itemView variable
@@ -112,13 +134,34 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             });
         }
 
+        DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference mUsers = mRootRef.child("Users");
+
+        String validDatabaseRef = ".#$[]";
+        char[] ca = validDatabaseRef.toCharArray();
+        public void filterChar(char[] ca){
+            for (char c : ca){
+                userID = userID.replace(""+c, "");
+            }
+        }
+
         //TODO --  make the logic for the function that will save the news article
         private void saveInfo(){
-            //Get the Website and the title
-            String website = textViewWebSite.getText().toString();
-            String title = textViewTitle.getText().toString();
+            filterChar(ca);
 
-            //Save the information to the users profile
+            DatabaseReference mUserEmail = mUsers.child(userID);
+            DatabaseReference mUserTitles = mUserEmail.child("Titles");
+            DatabaseReference mUserContent = mUserEmail.child("Content");
+
+            //Get the Website and the title
+            String title = textViewTitle.getText().toString();
+            String content = textViewContent.getText().toString();
+
+            titlesList.add(title);
+            contentList.add(content);
+
+            mUserTitles.setValue(titlesList);
+            mUserContent.setValue(contentList);
         }
     }
 }
