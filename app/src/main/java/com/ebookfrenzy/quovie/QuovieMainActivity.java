@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -83,23 +85,23 @@ public class QuovieMainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        gridLayout = (GridLayout)findViewById(R.id.gridLayout);
+        gridLayout = (GridLayout) findViewById(R.id.gridLayout);
         setSingleEvent(gridLayout);
 
-            //write and read the data
-            writeSportsData();
+        //write and read the data
+        writeSportsData();
 
-            writeTechData();
+        writeTechData();
 
-            writeLifestyleData();
+        writeLifestyleData();
 
-            writeFinanceData();
+        writeFinanceData();
 
-            writeFoxNewsData();
+        writeFoxNewsData();
 
-            writeBBCNewsData();
+        writeBBCNewsData();
 
-        sportsImage = (ImageView)findViewById(R.id.sportsImage);
+        sportsImage = (ImageView) findViewById(R.id.sportsImage);
         sportsImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -110,7 +112,7 @@ public class QuovieMainActivity extends AppCompatActivity
                 startActivityForResult(sportsIntent, request_code);
             }
         });
-        techImage = (ImageView)findViewById(R.id.techImage);
+        techImage = (ImageView) findViewById(R.id.techImage);
         techImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,7 +123,7 @@ public class QuovieMainActivity extends AppCompatActivity
                 startActivityForResult(techIntent, request_code);
             }
         });
-        lsImage = (ImageView)findViewById(R.id.lifestyleImage);
+        lsImage = (ImageView) findViewById(R.id.lifestyleImage);
         lsImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,7 +134,7 @@ public class QuovieMainActivity extends AppCompatActivity
                 startActivityForResult(lsIntent, request_code);
             }
         });
-        financeImage = (ImageView)findViewById(R.id.financeImage);
+        financeImage = (ImageView) findViewById(R.id.financeImage);
         financeImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -143,7 +145,7 @@ public class QuovieMainActivity extends AppCompatActivity
                 startActivityForResult(financeIntent, request_code);
             }
         });
-        foxImage = (ImageView)findViewById(R.id.foxImage);
+        foxImage = (ImageView) findViewById(R.id.foxImage);
         foxImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -154,7 +156,7 @@ public class QuovieMainActivity extends AppCompatActivity
                 startActivityForResult(foxIntent, request_code);
             }
         });
-        bbcImage = (ImageView)findViewById(R.id.bbcImage);
+        bbcImage = (ImageView) findViewById(R.id.bbcImage);
         bbcImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -165,12 +167,51 @@ public class QuovieMainActivity extends AppCompatActivity
                 startActivityForResult(bbcIntent, request_code);
             }
         });
+
+        //Configure the bottom Navigation view
+        BottomNavigationView bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.to_home:
+                        break;
+                    case R.id.to_profile:
+                        Context context = QuovieMainActivity.this;
+                        Intent i = new Intent(context, ProfileActivity.class);
+                        (context).startActivity(i);
+                        break;
+                }
+                return true;
+            }
+        });
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_manage) {
+            // Handle the camera action
+            Toast.makeText(QuovieMainActivity.this, "This is the profile Button", Toast.LENGTH_SHORT).show();
+
+        } else if (id == R.id.nav_logout) {
+            //log the USer out
+            mAuth.getInstance().signOut();
+            //now send them to the login page
+            Context context = QuovieMainActivity.this;
+            Intent i = new Intent(context, LoginActivity.class);
+            startActivity(i);
+        }
+        //TODO - Add the Share and Send functionality for the navigation menu
+        return true;
     }
 
     private void setSingleEvent(GridLayout gridLayout) {
         //loop all of the children in the gridlayout
-        for (int i = 0; i < gridLayout.getChildCount(); i++){
-            final CardView cardView = (CardView)gridLayout.getChildAt(i);
+        for (int i = 0; i < gridLayout.getChildCount(); i++) {
+            final CardView cardView = (CardView) gridLayout.getChildAt(i);
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -259,7 +300,7 @@ public class QuovieMainActivity extends AppCompatActivity
         mLifestyleRef.child("Websites").setValue(websitesList);
     }
 
-    public void writeFoxNews(String[] titles, String[] authors, String[] content, String[] urlImages, String[] website){
+    public void writeFoxNews(String[] titles, String[] authors, String[] content, String[] urlImages, String[] website) {
         List titlesList = new ArrayList(Arrays.asList(titles));
         List contentList = new ArrayList(Arrays.asList(content));
         List authorsList = new ArrayList(Arrays.asList(authors));
@@ -273,7 +314,7 @@ public class QuovieMainActivity extends AppCompatActivity
         mFoxNewsRef.child("Websites").setValue(websitesList);
     }
 
-    public void writeBBCNews(String[] titles, String[] authors, String[] content, String[] urlImages, String[] websites){
+    public void writeBBCNews(String[] titles, String[] authors, String[] content, String[] urlImages, String[] websites) {
         List titlesList = new ArrayList(Arrays.asList(titles));
         List contentList = new ArrayList(Arrays.asList(content));
         List authorsList = new ArrayList(Arrays.asList(authors));
@@ -411,56 +452,27 @@ public class QuovieMainActivity extends AppCompatActivity
         wf.execute();
     }
 
-        private void writeBBCNewsData(){
-            class WriteBBCNewsData extends AsyncTask<Void, Void, String>{
-                @Override
-                protected void onPreExecute() {
-                    super.onPreExecute();
-                    ParseBBC pb = new ParseBBC();
-                    pb.bbcData();
-                }
-                @Override
-                protected String doInBackground(Void... voids) {
-                    return null;
-                }
-
-                @Override
-                protected void onPostExecute(String s) {
-                    super.onPostExecute(s);
-                    writeBBCNews(ConfigClass1.bbcTitles, ConfigClass1.bbcAuthors, ConfigClass1.bbcContent, ConfigClass1.bbcUrlImages, ConfigClass1.bbcWebsites);
-                }
+    private void writeBBCNewsData() {
+        class WriteBBCNewsData extends AsyncTask<Void, Void, String> {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                ParseBBC pb = new ParseBBC();
+                pb.bbcData();
             }
-            WriteBBCNewsData wb = new WriteBBCNewsData();
-            wb.execute();
-    }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+            @Override
+            protected String doInBackground(Void... voids) {
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                writeBBCNews(ConfigClass1.bbcTitles, ConfigClass1.bbcAuthors, ConfigClass1.bbcContent, ConfigClass1.bbcUrlImages, ConfigClass1.bbcWebsites);
+            }
         }
+        WriteBBCNewsData wb = new WriteBBCNewsData();
+        wb.execute();
     }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_manage) {
-            // Handle the camera action
-
-        } else if (id == R.id.nav_logout) {
-            //log the USer out
-        }
-        //TODO - Add the Share and Send functionality for the navigation menu
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
 }

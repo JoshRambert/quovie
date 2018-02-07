@@ -28,7 +28,7 @@
             android:theme="@style/QuovieThemeDark.NoActionbar"/>
         <activity
             android:name=".ShowArticle"
-            android:parentActivityName=".QuovieMainActivity"
+            android:parentActivityName=".DisplayNewsActivity"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
         <activity
             android:name=".LoginActivity"
