@@ -48,7 +48,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     public CardAdapter(String[] webSite, String[] titles, String[] urls, Bitmap[] images, String[] Content, String[] author) {
         super();
         items = new ArrayList<ListItem>();
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < titles.length; i++) {
             ListItem item = new ListItem();
             item.setTitle(titles[i]);
             item.setUrl(urls[i]);

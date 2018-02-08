@@ -2,6 +2,7 @@ package com.ebookfrenzy.quovie;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -31,6 +32,10 @@ public class ProfileActivity extends AppCompatActivity {
     //TODO get the users information from the database and show it in a list view here
     private ArrayList<String> mTitles;
     private ArrayList<String> mContent;
+
+    private String[] arrayTitles;
+    private String[] arrayContent;
+
     private UserArticlesAdapter mUserArticlesAdapter;
     public String currentUser = LoginActivity.mPassword;
 
@@ -52,11 +57,13 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mTitles = (ArrayList<String>) dataSnapshot.getValue();
+
+                arrayTitles = mTitles.toArray(new String[mTitles.size()]).clone();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(ProfileActivity.this, "Couldnt get the info for some reason", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProfileActivity.this, "Couldn't get the info for some reason", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -64,6 +71,12 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mContent = (ArrayList<String>) dataSnapshot.getValue();
+
+                arrayContent = mContent.toArray(new String[mContent.size()]).clone();
+
+                mUserArticlesAdapter = new UserArticlesAdapter(arrayTitles, arrayContent);
+                ListView articlesList = (ListView)findViewById(R.id.profileListView);
+                articlesList.setAdapter(mUserArticlesAdapter);
             }
 
             @Override
@@ -71,10 +84,6 @@ public class ProfileActivity extends AppCompatActivity {
                 Toast.makeText(ProfileActivity.this, "Couldn't get the content for some reason", Toast.LENGTH_SHORT).show();
             }
         });
-
-        mUserArticlesAdapter = new UserArticlesAdapter(mTitles, mContent);
-        ListView articlesList = (ListView)findViewById(R.id.profileListView);
-        articlesList.setAdapter(mUserArticlesAdapter);
 
         //TODO set an on click to open the current article in a small window.
         //Add the bottom navigation
@@ -94,21 +103,24 @@ public class ProfileActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+
+
     }
 
     public class UserArticlesAdapter extends BaseAdapter{
 
-
         List<UserArticlesList> articlesList;
         //Also create the database reference that will read from the list of notes
 
-        public UserArticlesAdapter(ArrayList<String> titles, ArrayList<String> content){
+        public UserArticlesAdapter(String[] titles, String[] content){
             super();
             articlesList = new ArrayList<UserArticlesList>();
-            for (int i = 0; i < articlesList.size(); i++){
+            for (int i = 0; i < titles.length; i++){
                 UserArticlesList item = new UserArticlesList();
-                item.setTitle(titles.get(i));
-                item.setContent(content.get(i));
+                item.setTitle(titles[i]);
+                item.setContent(content[i]);
+                articlesList.add(item);
             }
         }
 
@@ -139,6 +151,11 @@ public class ProfileActivity extends AppCompatActivity {
             //now get a reference to the title and the content views from within the layout
             TextView titleTxt = (TextView)view.findViewById(R.id.titleView);
             TextView contentTxt = (TextView)view.findViewById(R.id.contentView);
+
+            UserArticlesList userArticles = articlesList.get(i);
+
+            titleTxt.setText(userArticles.getTitle());
+            contentTxt.setText(userArticles.getContent());
 
             return view;
         }

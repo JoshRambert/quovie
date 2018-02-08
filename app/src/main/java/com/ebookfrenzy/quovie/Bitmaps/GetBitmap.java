@@ -45,7 +45,7 @@ public class GetBitmap extends AsyncTask<Void,Void,Void> {
 
     @Override
     protected Void doInBackground(Void...params){
-        for(int i = 0; i< urlImages.length; i++){
+        for(int i = 0; i < urlImages.length; i++){
             ConfigClass1.newsBitmaps[i] = getImage(urlImages[i]);
         }
         return null;
