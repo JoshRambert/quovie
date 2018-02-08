@@ -76,15 +76,6 @@ public class QuovieMainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Quovie");
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
         gridLayout = (GridLayout) findViewById(R.id.gridLayout);
         setSingleEvent(gridLayout);
 
@@ -185,8 +176,18 @@ public class QuovieMainActivity extends AppCompatActivity
                 return true;
             }
         });
-    }
 
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -194,7 +195,9 @@ public class QuovieMainActivity extends AppCompatActivity
 
         if (id == R.id.nav_manage) {
             // Handle the camera action
-            Toast.makeText(QuovieMainActivity.this, "This is the profile Button", Toast.LENGTH_SHORT).show();
+            Context context = QuovieMainActivity.this;
+            Intent i = new Intent(context, ProfileActivity.class);
+            startActivity(i);
 
         } else if (id == R.id.nav_logout) {
             //log the USer out
@@ -205,6 +208,8 @@ public class QuovieMainActivity extends AppCompatActivity
             startActivity(i);
         }
         //TODO - Add the Share and Send functionality for the navigation menu
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 

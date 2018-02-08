@@ -7,15 +7,25 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
         android:background="@drawable/profile_list_background">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:background="@drawable/image_background"
+            android:src="@drawable/quovieredlogo1"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"/>
 
         <TextView
             android:layout_marginTop="15dp"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="65dp"
             android:layout_marginRight="15dp"
             android:textStyle="italic|bold"
             android:textSize="20sp"
@@ -28,7 +38,7 @@
 
         <TextView
 
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="40dp"
             android:layout_marginRight="15dp"
             android:layout_marginBottom="15dp"
             android:id="@+id/contentView"
@@ -36,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/titleView"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="12dp"
             android:textSize="15sp"
             android:text="Content" />
 
