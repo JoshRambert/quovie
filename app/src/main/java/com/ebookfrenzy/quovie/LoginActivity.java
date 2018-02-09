@@ -144,7 +144,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
                     mProgressBar.setVisibility(View.INVISIBLE);
-                    Toast.makeText(LoginActivity.this, "Successful Login", Toast.LENGTH_SHORT).show();
                     //send them to the main activity
                     Intent i = new Intent(LoginActivity.this, QuovieMainActivity.class);
                     startActivity(i);

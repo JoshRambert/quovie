@@ -23,7 +23,6 @@ public class OpeningActivity extends AppCompatActivity {
 
     //Create the method that will send this to the opening page
     public void toLogin(View view){
-        Toast.makeText(this, "Going to login page", Toast.LENGTH_SHORT).show();
         Context context = view.getContext();
         Intent i = new Intent(context, LoginActivity.class);
         (context).startActivity(i);
