@@ -11,7 +11,8 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="82dp"
-        android:src="@drawable/quovieredlogo1" />
+        android:src="@drawable/quovieredlogo1"
+        android:id="@+id/imageView2" />
 
     <Button
         android:clickable="true"
@@ -26,5 +27,25 @@
         android:layout_marginBottom="54dp"
         android:text="Continue"
         android:textStyle="bold|italic"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:fontFamily="cursive"
+        android:text="Joshua Rambert"
+        android:textStyle="bold"
+        android:textColor="#000000" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView2"
+        android:layout_centerHorizontal="true"
+        android:text="Simple.News"
+        android:textStyle="italic"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
 
 </RelativeLayout>

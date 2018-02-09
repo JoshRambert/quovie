@@ -64,7 +64,7 @@
                             android:layout_gravity="center_horizontal"
                             android:contentDescription="TODO"
                             android:scaleType="fitXY"
-                            android:src="@drawable/sportsimage" />
+                            android:src="@drawable/sports_image3" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -110,7 +110,7 @@
                             android:layout_height="match_parent"
                             android:layout_gravity="center_horizontal"
                             android:scaleType="fitXY"
-                            android:src="@drawable/techimage2" />
+                            android:src="@drawable/tech_image3" />
 
                         <TextView
                             android:layout_width="wrap_content"

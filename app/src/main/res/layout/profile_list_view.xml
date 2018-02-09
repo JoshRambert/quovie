@@ -13,11 +13,11 @@
         android:layout_marginBottom="6dp"
         android:background="@drawable/profile_list_background">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:background="@drawable/image_background"
-            android:src="@drawable/quovieredlogo1"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:src="@drawable/q_solid"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_alignParentLeft="true"
             android:layout_marginTop="15dp"
             android:layout_marginLeft="15dp"

@@ -60,7 +60,7 @@ public class ConfigClass1 {
     static String shortSports = "https://newsapi.org/v2/top-headlines?sources=espn&apiKey=b58181b5d3674ec38753867894405f2c";
     static String longSports = "https://newsapi.org/v2/everything?sources=espn&apiKey=b58181b5d3674ec38753867894405f2c";
 
-    static String shortTech = "https://newsapi.org/v2/top-headlines?sources=wired&apiKey=b58181b5d3674ec38753867894405f2c";
+    static String shortTech = "https://newsapi.org/v2/top-headlines?sources=hacker-news&apiKey=b58181b5d3674ec38753867894405f2c";
     static String longTech = "https://newsapi.org/v2/everything?sources=techradar&apiKey=b58181b5d3674ec38753867894405f2c\n" + "\n";
 
     static String longLS = "https://newsapi.org/v2/everything?sources=new-york-magazine&apiKey=b58181b5d3674ec38753867894405f2c\n" + "\n";
