@@ -18,6 +18,8 @@ import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
 
 import com.google.android.gms.common.data.DataBufferObserverSet;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,6 +40,8 @@ public class ProfileActivity extends AppCompatActivity {
     private String[] arrayTitles;
     private String[] arrayContent;
 
+    FirebaseUser user;
+
     private UserArticlesAdapter mUserArticlesAdapter;
     public String currentUser = LoginActivity.mPassword;
 
@@ -57,38 +61,45 @@ public class ProfileActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_profile);
         toolbar.setTitle("Your Saved Articles");
 
-        //get the titles and the content from the database then pass it into the adapter
-        mUserTitles.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                mTitles = (ArrayList<String>) dataSnapshot.getValue();
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
-                arrayTitles = mTitles.toArray(new String[mTitles.size()]).clone();
-            }
+        if (user != null){
+            //get the titles and the content from the database then pass it into the adapter
+            mUserTitles.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    mTitles = (ArrayList<String>) dataSnapshot.getValue();
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(ProfileActivity.this, "Couldn't get the info for some reason", Toast.LENGTH_SHORT).show();
-            }
-        });
+                    arrayTitles = mTitles.toArray(new String[mTitles.size()]).clone();
+                }
 
-        mUserContent.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                mContent = (ArrayList<String>) dataSnapshot.getValue();
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Toast.makeText(ProfileActivity.this, "Couldn't get the info for some reason", Toast.LENGTH_SHORT).show();
+                }
+            });
 
-                arrayContent = mContent.toArray(new String[mContent.size()]).clone();
+            mUserContent.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    mContent = (ArrayList<String>) dataSnapshot.getValue();
 
-                mUserArticlesAdapter = new UserArticlesAdapter(arrayTitles, arrayContent);
-                ListView articlesList = (ListView)findViewById(R.id.profileListView);
-                articlesList.setAdapter(mUserArticlesAdapter);
-            }
+                    arrayContent = mContent.toArray(new String[mContent.size()]).clone();
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(ProfileActivity.this, "Couldn't get the content for some reason", Toast.LENGTH_SHORT).show();
-            }
-        });
+                    mUserArticlesAdapter = new UserArticlesAdapter(arrayTitles, arrayContent);
+                    ListView articlesList = (ListView)findViewById(R.id.profileListView);
+                    articlesList.setAdapter(mUserArticlesAdapter);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Toast.makeText(ProfileActivity.this, "Couldn't get the content for some reason", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        else {
+            return;
+        }
 
         //TODO set an on click to open the current article in a small window.
         //Add the bottom navigation
