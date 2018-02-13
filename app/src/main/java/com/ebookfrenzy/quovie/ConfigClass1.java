@@ -36,12 +36,12 @@ public class ConfigClass1 {
     public static Bitmap[] lsBitmaps;
     public static String[] lsAuthors;
 
-    public static String[] foxTitles;
-    public static String[] foxUrlImages;
-    public static String[] foxContent;
-    public static String[] foxWebsites;
-    public static Bitmap[] foxBitmaps;
-    public static String[] foxAuthors;
+    public static String[] biTitles;
+    public static String[] biUrlImages;
+    public static String[] biContent;
+    public static String[] biWebsites;
+    public static Bitmap[] biBitmaps;
+    public static String[] biAuthors;
 
     public static String[] bbcTitles;
     public static String[] bbcUrlImages;
@@ -54,13 +54,13 @@ public class ConfigClass1 {
     public static Bitmap[] newsBitmaps;
 
     //Create variables to hold different types of APIS in TODO: Create the parse clases for the added news sources then ad them to the database
-    static String foxNews = "https://newsapi.org/v2/top-headlines?sources=fox-news&apiKey=b58181b5d3674ec38753867894405f2c";
+    static String biNews = "https://newsapi.org/v2/top-headlines?sources=business-insider&apiKey=b58181b5d3674ec38753867894405f2c";
     static String bbcNews = "https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=b58181b5d3674ec38753867894405f2c";
 
     static String shortSports = "https://newsapi.org/v2/top-headlines?sources=espn&apiKey=b58181b5d3674ec38753867894405f2c";
     static String longSports = "https://newsapi.org/v2/everything?sources=espn&apiKey=b58181b5d3674ec38753867894405f2c";
 
-    static String shortTech = "https://newsapi.org/v2/top-headlines?sources=hacker-news&apiKey=b58181b5d3674ec38753867894405f2c";
+    static String shortTech = "https://newsapi.org/v2/top-headlines?sources=the-next-web&apiKey=b58181b5d3674ec38753867894405f2c";
     static String longTech = "https://newsapi.org/v2/everything?sources=techradar&apiKey=b58181b5d3674ec38753867894405f2c\n" + "\n";
 
     static String longLS = "https://newsapi.org/v2/everything?sources=new-york-magazine&apiKey=b58181b5d3674ec38753867894405f2c\n" + "\n";
@@ -74,7 +74,7 @@ public class ConfigClass1 {
     public static final String GET_TECH = shortTech;
     public static final String GET_LIFESTYLE = shortLS;
     public static final String GET_FINANCE = shortFinance;
-    public static final String GET_FOX = foxNews;
+    public static final String GET_BI = biNews;
     public static final String GET_BBC = bbcNews;
 
     //for parsing the JSON
@@ -115,12 +115,12 @@ public class ConfigClass1 {
         lsWebsites = new String[i];
         lsAuthors = new String[i];
 
-        foxTitles = new String[i];
-        foxUrlImages = new String[i];
-        foxContent = new String[i];
-        foxBitmaps = new Bitmap[i];
-        foxWebsites = new String[i];
-        foxAuthors = new String[i];
+        biTitles = new String[i];
+        biUrlImages = new String[i];
+        biContent = new String[i];
+        biBitmaps = new Bitmap[i];
+        biWebsites = new String[i];
+        biAuthors = new String[i];
 
         bbcTitles = new String[i];
         bbcUrlImages = new String[i];

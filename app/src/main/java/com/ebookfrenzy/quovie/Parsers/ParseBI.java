@@ -19,11 +19,11 @@ import java.net.URL;
  * Created by joshuarambert on 2/2/18.
  */
 
-public class ParseFox {
+public class ParseBI {
     private ConfigClass1 config;
 
-    public void foxData(){
-        class FoxData extends AsyncTask<Void, Void, String>{
+    public void biData(){
+        class BIData extends AsyncTask<Void, Void, String>{
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
@@ -34,7 +34,7 @@ public class ParseFox {
             protected String doInBackground(Void... voids) {
                 BufferedReader br = null;
                 try{
-                    URL url = new URL(ConfigClass1.GET_FOX);
+                    URL url = new URL(ConfigClass1.GET_BI);
                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
                     StringBuilder sb = new StringBuilder();
                     String json;
@@ -49,7 +49,7 @@ public class ParseFox {
                 }
             }
         }
-        FoxData fd = new FoxData();
+        BIData fd = new BIData();
         fd.execute();
     }
 
@@ -62,11 +62,11 @@ public class ParseFox {
 
             for (int i = 0; i < array.length(); i++){
                 JSONObject j = array.getJSONObject(i);
-                ConfigClass1.foxTitles[i] = getFoxTitles(j);
-                ConfigClass1.foxAuthors[i] = getFoxAuthor(j);
-                ConfigClass1.foxContent[i] = getFoxContent(j);
-                ConfigClass1.foxWebsites[i] = getFoxWebsites(j);
-                ConfigClass1.foxUrlImages[i] = getFoxUrls(j);
+                ConfigClass1.biTitles[i] = getBITitles(j);
+                ConfigClass1.biAuthors[i] = getBIAuthor(j);
+                ConfigClass1.biContent[i] = getBIContent(j);
+                ConfigClass1.biWebsites[i] = getBIWebsites(j);
+                ConfigClass1.biUrlImages[i] = getBIUrls(j);
             }
         } catch (JSONException e){
             e.printStackTrace();
@@ -75,7 +75,7 @@ public class ParseFox {
 
     //Create the methods that will parse the josnObject from the JSON Array
 
-    private String getFoxAuthor(JSONObject j){
+    private String getBIAuthor(JSONObject j){
         String author = null;
         try{
             author = j.getString(ConfigClass1.TAG_JSON_AUTHOR);
@@ -85,7 +85,7 @@ public class ParseFox {
         return author;
     }
 
-    private String getFoxWebsites(JSONObject j){
+    private String getBIWebsites(JSONObject j){
         String website = null;
         try{
             website = j.getString(ConfigClass1.TAG_JSON_WEBSITE);
@@ -95,7 +95,7 @@ public class ParseFox {
         return website;
     }
 
-    private String getFoxTitles (JSONObject j){
+    private String getBITitles (JSONObject j){
         String title = null;
         try{
             title = j.getString(ConfigClass1.TAG_IMAGE_TITLE);
@@ -105,7 +105,7 @@ public class ParseFox {
         return title;
     }
 
-    private String getFoxUrls (JSONObject j){
+    private String getBIUrls (JSONObject j){
         String urls = null;
         try {
             urls = j.getString(ConfigClass1.TAG_IMAGE_URL);
@@ -115,7 +115,7 @@ public class ParseFox {
         return urls;
     }
 
-    private String getFoxContent (JSONObject j){
+    private String getBIContent (JSONObject j){
         String content = null;
         try{
             content = j.getString(ConfigClass1.TAG_JSON_CONTENT);

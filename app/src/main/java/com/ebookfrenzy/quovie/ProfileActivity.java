@@ -75,7 +75,6 @@ public class ProfileActivity extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    Toast.makeText(ProfileActivity.this, "Couldn't get the info for some reason", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -93,7 +92,6 @@ public class ProfileActivity extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    Toast.makeText(ProfileActivity.this, "Couldn't get the content for some reason", Toast.LENGTH_SHORT).show();
                 }
             });
         }

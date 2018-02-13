@@ -241,12 +241,12 @@
                         android:orientation="vertical">
 
                         <ImageView
-                            android:id="@+id/foxImage"
+                            android:id="@+id/biImage"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="fitXY"
                             android:layout_gravity="center_horizontal"
-                            android:src="@drawable/foxnewsimage" />
+                            android:src="@drawable/business_insider_image" />
 
                         <TextView
                             android:layout_width="wrap_content"

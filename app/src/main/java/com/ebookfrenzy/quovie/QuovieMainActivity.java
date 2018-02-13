@@ -2,7 +2,6 @@ package com.ebookfrenzy.quovie;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -23,7 +22,7 @@ import android.widget.Toast;
 
 import com.ebookfrenzy.quovie.Parsers.ParseBBC;
 import com.ebookfrenzy.quovie.Parsers.ParseFinance;
-import com.ebookfrenzy.quovie.Parsers.ParseFox;
+import com.ebookfrenzy.quovie.Parsers.ParseBI;
 import com.ebookfrenzy.quovie.Parsers.ParseLifeStyle;
 import com.ebookfrenzy.quovie.Parsers.ParseSports;
 import com.ebookfrenzy.quovie.Parsers.ParseTechnology;
@@ -53,14 +52,14 @@ public class QuovieMainActivity extends AppCompatActivity
     public static final String TECH = "Technology";
     public static final String LS = "Lifestyle";
     public static final String FINANCE = "Finance";
-    public static final String FOXNEWS = "Fox";
+    public static final String BINEWS = "Business Insider";
     public static final String BBCNEWS = "BBC";
 
     ImageView sportsImage;
     ImageView techImage;
     ImageView lsImage;
     ImageView financeImage;
-    ImageView foxImage;
+    ImageView biImage;
     ImageView bbcImage;
 
     private static final int request_code = 5;
@@ -80,17 +79,23 @@ public class QuovieMainActivity extends AppCompatActivity
         setSingleEvent(gridLayout);
 
         //write and read the data
-        writeSportsData();
+        if (mAuth != null){
+            writeSportsData();
 
-        writeTechData();
+            writeTechData();
 
-        writeLifestyleData();
+            writeLifestyleData();
 
-        writeFinanceData();
+            writeFinanceData();
 
-        writeFoxNewsData();
+            writeBiNewsData();
 
-        writeBBCNewsData();
+            writeBBCNewsData();
+
+        }
+        else {
+            return;
+        }
 
         sportsImage = (ImageView) findViewById(R.id.sportsImage);
         sportsImage.setOnClickListener(new View.OnClickListener() {
@@ -136,14 +141,14 @@ public class QuovieMainActivity extends AppCompatActivity
                 startActivityForResult(financeIntent, request_code);
             }
         });
-        foxImage = (ImageView) findViewById(R.id.foxImage);
-        foxImage.setOnClickListener(new View.OnClickListener() {
+        biImage = (ImageView) findViewById(R.id.biImage);
+        biImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Context context = view.getContext();
                 Intent foxIntent = new Intent(context, DisplayNewsActivity.class);
 
-                foxIntent.putExtra("Database Reference", FOXNEWS);
+                foxIntent.putExtra("Database Reference", BINEWS);
                 startActivityForResult(foxIntent, request_code);
             }
         });
@@ -235,7 +240,7 @@ public class QuovieMainActivity extends AppCompatActivity
     DatabaseReference mTechRef = mNewsRef.child("Technology");
     DatabaseReference mFinanceRef = mNewsRef.child("Finance");
     DatabaseReference mLifestyleRef = mNewsRef.child("Lifestyle");
-    DatabaseReference mFoxNewsRef = mNewsRef.child("Fox");
+    DatabaseReference mBiNewsRef = mNewsRef.child("Business Insider");
     DatabaseReference mBBCNewsRef = mNewsRef.child("BBC");
 
 
@@ -305,18 +310,18 @@ public class QuovieMainActivity extends AppCompatActivity
         mLifestyleRef.child("Websites").setValue(websitesList);
     }
 
-    public void writeFoxNews(String[] titles, String[] authors, String[] content, String[] urlImages, String[] website) {
+    public void writeBiNews(String[] titles, String[] authors, String[] content, String[] urlImages, String[] website) {
         List titlesList = new ArrayList(Arrays.asList(titles));
         List contentList = new ArrayList(Arrays.asList(content));
         List authorsList = new ArrayList(Arrays.asList(authors));
         List urlsList = new ArrayList(Arrays.asList(urlImages));
         List websitesList = new ArrayList(Arrays.asList(website));
 
-        mFoxNewsRef.child("Titles").setValue(titlesList);
-        mFoxNewsRef.child("Content").setValue(contentList);
-        mFoxNewsRef.child("Authors").setValue(authorsList);
-        mFoxNewsRef.child("Url Images").setValue(urlsList);
-        mFoxNewsRef.child("Websites").setValue(websitesList);
+        mBiNewsRef.child("Titles").setValue(titlesList);
+        mBiNewsRef.child("Content").setValue(contentList);
+        mBiNewsRef.child("Authors").setValue(authorsList);
+        mBiNewsRef.child("Url Images").setValue(urlsList);
+        mBiNewsRef.child("Websites").setValue(websitesList);
     }
 
     public void writeBBCNews(String[] titles, String[] authors, String[] content, String[] urlImages, String[] websites) {
@@ -433,13 +438,13 @@ public class QuovieMainActivity extends AppCompatActivity
         fd.execute();
     }
 
-    private void writeFoxNewsData() {
-        class WriteFoxNewsData extends AsyncTask<Void, Void, String> {
+    private void writeBiNewsData() {
+        class WriteBiNewsData extends AsyncTask<Void, Void, String> {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                ParseFox pf = new ParseFox();
-                pf.foxData();
+                ParseBI pf = new ParseBI();
+                pf.biData();
             }
 
             @Override
@@ -450,10 +455,10 @@ public class QuovieMainActivity extends AppCompatActivity
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
-                writeFoxNews(ConfigClass1.foxTitles, ConfigClass1.foxAuthors, ConfigClass1.foxContent, ConfigClass1.foxUrlImages, ConfigClass1.foxWebsites);
+                writeBiNews(ConfigClass1.biTitles, ConfigClass1.biAuthors, ConfigClass1.biContent, ConfigClass1.biUrlImages, ConfigClass1.biWebsites);
             }
         }
-        WriteFoxNewsData wf = new WriteFoxNewsData();
+        WriteBiNewsData wf = new WriteBiNewsData();
         wf.execute();
     }
 
