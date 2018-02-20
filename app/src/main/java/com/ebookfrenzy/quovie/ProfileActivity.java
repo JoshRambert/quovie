@@ -41,6 +41,7 @@ public class ProfileActivity extends AppCompatActivity {
     private String[] arrayContent;
 
     FirebaseUser user;
+    FirebaseAuth mAuth;
 
     private UserArticlesAdapter mUserArticlesAdapter;
     public String currentUser = LoginActivity.mPassword;
@@ -61,6 +62,7 @@ public class ProfileActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_profile);
         toolbar.setTitle("Your Saved Articles");
 
+        mAuth = FirebaseAuth.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
 
         if (user != null){
@@ -117,9 +119,18 @@ public class ProfileActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mAuth.getCurrentUser();
+    }
 
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAuth.getCurrentUser();
     }
 
     public class UserArticlesAdapter extends BaseAdapter{

@@ -28,6 +28,7 @@ import com.ebookfrenzy.quovie.Parsers.ParseSports;
 import com.ebookfrenzy.quovie.Parsers.ParseTechnology;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -46,6 +47,7 @@ public class QuovieMainActivity extends AppCompatActivity
     private ConfigClass1 config3;
 
     private FirebaseAuth mAuth;
+    private FirebaseUser mUser;
 
     //The Numbers for the CardView -- TODO: Create the intents for each of the click events on the card view
     public static final String SPORTS = "Sports";
@@ -71,6 +73,7 @@ public class QuovieMainActivity extends AppCompatActivity
         setContentView(R.layout.activity_quovie_main);
         FirebaseApp.initializeApp(this);
         mAuth = FirebaseAuth.getInstance();
+        mUser = FirebaseAuth.getInstance().getCurrentUser();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Quovie");
@@ -192,6 +195,19 @@ public class QuovieMainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mAuth.getCurrentUser();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAuth.getCurrentUser();
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
