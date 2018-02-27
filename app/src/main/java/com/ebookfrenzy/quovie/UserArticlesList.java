@@ -9,6 +9,7 @@ import java.net.URL;
 public class UserArticlesList {
     private String title;
     private String content;
+    private String website;
 
     public String getTitle(){
         return title;
@@ -24,5 +25,13 @@ public class UserArticlesList {
 
     public void setContent(String content){
         this.content = content;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public void setWebste(String website){
+        this.website = website;
     }
 }

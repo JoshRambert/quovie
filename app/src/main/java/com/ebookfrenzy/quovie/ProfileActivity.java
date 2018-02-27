@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -34,16 +35,10 @@ import java.util.function.ToLongBiFunction;
 public class ProfileActivity extends AppCompatActivity {
 
     //TODO get the users information from the database and show it in a list view here
-    private ArrayList<String> mTitles;
-    private ArrayList<String> mContent;
-
-    private String[] arrayTitles;
-    private String[] arrayContent;
-
     FirebaseUser user;
     FirebaseAuth mAuth;
 
-    private UserArticlesAdapter mUserArticlesAdapter;
+    UserArticlesAdapter mUserArticlesAdapter;
     public String currentUser = LoginActivity.mPassword;
 
     //Reference the database to tge the lists then pass them into the adapter
@@ -52,8 +47,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     //Get the current user by their password
     DatabaseReference mCurrentUserRef = mUsersRef.child(currentUser);
-    DatabaseReference mUserTitles = mCurrentUserRef.child("Titles");
-    DatabaseReference mUserContent = mCurrentUserRef.child("Content");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,41 +59,16 @@ public class ProfileActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
 
-        if (user != null){
-            //get the titles and the content from the database then pass it into the adapter
-            mUserTitles.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    mTitles = (ArrayList<String>) dataSnapshot.getValue();
+        mUserArticlesAdapter = new UserArticlesAdapter();
+        final ListView listArticles = (ListView)findViewById(R.id.profileListView);
+        listArticles.setAdapter(mUserArticlesAdapter);
 
-                    arrayTitles = mTitles.toArray(new String[mTitles.size()]).clone();
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                }
-            });
-
-            mUserContent.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    mContent = (ArrayList<String>) dataSnapshot.getValue();
-
-                    arrayContent = mContent.toArray(new String[mContent.size()]).clone();
-
-                    mUserArticlesAdapter = new UserArticlesAdapter(arrayTitles, arrayContent);
-                    ListView articlesList = (ListView)findViewById(R.id.profileListView);
-                    articlesList.setAdapter(mUserArticlesAdapter);
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                }
-            });
-        }
-        else {
-            return;
-        }
+        listArticles.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //TODO -- Eventually show the whole article
+            }
+        });
 
         //TODO set an on click to open the current article in a small window.
         //Add the bottom navigation
@@ -125,6 +94,7 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         mAuth.getCurrentUser();
+        mUserArticlesAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -133,20 +103,43 @@ public class ProfileActivity extends AppCompatActivity {
         mAuth.getCurrentUser();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mUserArticlesAdapter.notifyDataSetChanged();
+    }
+
+    public static ArrayList<UserArticlesList> articlesList = new ArrayList<UserArticlesList>();
+    public static TextView urlTxt;
+
     public class UserArticlesAdapter extends BaseAdapter{
+        public TextView titleTxt;
+        public TextView contentTxt;
 
-        List<UserArticlesList> articlesList;
         //Also create the database reference that will read from the list of notes
+        DatabaseReference mCurrentUser = mUsersRef.child(currentUser);
+        DatabaseReference mUserArticles = mCurrentUser.child("Articles");
 
-        public UserArticlesAdapter(String[] titles, String[] content){
+        public UserArticlesAdapter(){
             super();
-            articlesList = new ArrayList<UserArticlesList>();
-            for (int i = 0; i < titles.length; i++){
-                UserArticlesList item = new UserArticlesList();
-                item.setTitle(titles[i]);
-                item.setContent(content[i]);
-                articlesList.add(item);
-            }
+            //get the articles from the database
+            mUserArticles.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    articlesList.clear();
+                    UserArticlesList userArticles = null;
+                    for (DataSnapshot articles : dataSnapshot.getChildren()){
+                        userArticles = articles.getValue(UserArticlesList.class);
+                        mUserArticlesAdapter.notifyDataSetChanged();
+                        articlesList.add(userArticles);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
         }
 
         @Override
@@ -174,13 +167,15 @@ public class ProfileActivity extends AppCompatActivity {
             }
 
             //now get a reference to the title and the content views from within the layout
-            TextView titleTxt = (TextView)view.findViewById(R.id.titleView);
-            TextView contentTxt = (TextView)view.findViewById(R.id.contentView);
+            titleTxt = (TextView)view.findViewById(R.id.titleView);
+            contentTxt = (TextView)view.findViewById(R.id.contentView);
+            urlTxt = (TextView)view.findViewById(R.id.textUrl);
 
             UserArticlesList userArticles = articlesList.get(i);
 
             titleTxt.setText(userArticles.getTitle());
             contentTxt.setText(userArticles.getContent());
+            urlTxt.setText(userArticles.getWebsite());
 
             return view;
         }

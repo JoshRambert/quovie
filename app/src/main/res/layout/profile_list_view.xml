@@ -50,6 +50,15 @@
             android:textSize="15sp"
             android:text="Content" />
 
+        <TextView
+            android:id="@+id/textUrl"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_alignStart="@+id/contentView"
+            android:layout_alignTop="@+id/contentView"
+            android:layout_marginTop="23dp"
+            android:text="url" />
+
 
     </RelativeLayout>
 

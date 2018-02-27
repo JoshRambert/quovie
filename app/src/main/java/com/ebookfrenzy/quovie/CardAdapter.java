@@ -40,8 +40,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
     //Create the variables that will be used for saving the data
     String userID = LoginActivity.mPassword;
-    public static List titlesList = new ArrayList();
-    public static List contentList = new ArrayList();
 
     List<ListItem> items;
 
@@ -148,20 +146,21 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         //TODO --  make the logic for the function that will save the news article
         private void saveInfo(){
             filterChar(ca);
+            UserArticlesList userArticles = new UserArticlesList();
 
-            DatabaseReference mUserEmail = mUsers.child(userID);
-            DatabaseReference mUserTitles = mUserEmail.child("Titles");
-            DatabaseReference mUserContent = mUserEmail.child("Content");
+            DatabaseReference mUserId = mUsers.child(userID);
+            DatabaseReference mUserArticles = mUserId.child("Articles");
 
             //Get the Website and the title
             String title = textViewTitle.getText().toString();
             String content = textViewContent.getText().toString();
+            String website = textViewWebSite.getText().toString();
 
-            titlesList.add(title);
-            contentList.add(content);
+            userArticles.setTitle(title);
+            userArticles.setContent(content);
+            userArticles.setWebste(website);
 
-            mUserTitles.setValue(titlesList);
-            mUserContent.setValue(contentList);
+            mUserArticles.push().setValue(userArticles);
         }
     }
 }
