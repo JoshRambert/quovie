@@ -1,5 +1,8 @@
 package com.ebookfrenzy.quovie;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -13,6 +16,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridLayout;
@@ -20,6 +24,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.ebookfrenzy.quovie.Fragments.HomeFragment;
+import com.ebookfrenzy.quovie.Fragments.ProfileFragment;
 import com.ebookfrenzy.quovie.Parsers.ParseBBC;
 import com.ebookfrenzy.quovie.Parsers.ParseFinance;
 import com.ebookfrenzy.quovie.Parsers.ParseBI;
@@ -78,9 +84,6 @@ public class QuovieMainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Quovie");
 
-        gridLayout = (GridLayout) findViewById(R.id.gridLayout);
-        setSingleEvent(gridLayout);
-
         //write and read the data
         if (mAuth != null){
             writeSportsData();
@@ -100,92 +103,6 @@ public class QuovieMainActivity extends AppCompatActivity
             return;
         }
 
-        sportsImage = (ImageView) findViewById(R.id.sportsImage);
-        sportsImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Context context = view.getContext();
-                Intent sportsIntent = new Intent(context, DisplayNewsActivity.class);
-
-                sportsIntent.putExtra("Database Reference", SPORTS);
-                startActivityForResult(sportsIntent, request_code);
-            }
-        });
-        techImage = (ImageView) findViewById(R.id.techImage);
-        techImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Context context = view.getContext();
-                Intent techIntent = new Intent(context, DisplayNewsActivity.class);
-
-                techIntent.putExtra("Database Reference", TECH);
-                startActivityForResult(techIntent, request_code);
-            }
-        });
-        lsImage = (ImageView) findViewById(R.id.lifestyleImage);
-        lsImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Context context = view.getContext();
-                Intent lsIntent = new Intent(context, DisplayNewsActivity.class);
-
-                lsIntent.putExtra("Database Reference", LS);
-                startActivityForResult(lsIntent, request_code);
-            }
-        });
-        financeImage = (ImageView) findViewById(R.id.financeImage);
-        financeImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Context context = view.getContext();
-                Intent financeIntent = new Intent(context, DisplayNewsActivity.class);
-
-                financeIntent.putExtra("Database Reference", FINANCE);
-                startActivityForResult(financeIntent, request_code);
-            }
-        });
-        biImage = (ImageView) findViewById(R.id.biImage);
-        biImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Context context = view.getContext();
-                Intent foxIntent = new Intent(context, DisplayNewsActivity.class);
-
-                foxIntent.putExtra("Database Reference", BINEWS);
-                startActivityForResult(foxIntent, request_code);
-            }
-        });
-        bbcImage = (ImageView) findViewById(R.id.bbcImage);
-        bbcImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Context context = view.getContext();
-                Intent bbcIntent = new Intent(context, DisplayNewsActivity.class);
-
-                bbcIntent.putExtra("Database Reference", BBCNEWS);
-                startActivityForResult(bbcIntent, request_code);
-            }
-        });
-
-        //Configure the bottom Navigation view
-        BottomNavigationView bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.to_home:
-                        break;
-                    case R.id.to_profile:
-                        Context context = QuovieMainActivity.this;
-                        Intent i = new Intent(context, ProfileActivity.class);
-                        (context).startActivity(i);
-                        break;
-                }
-                return true;
-            }
-        });
-
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -194,6 +111,61 @@ public class QuovieMainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        setUpBottomNavigation();
+    }
+
+    /**
+     * Bottom Nav
+     */
+    private void setUpBottomNavigation(){
+        BottomNavigationView bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottom_navigation);
+        if (bottomNavigationView != null){
+
+            //select the first menu item by default and show the fragment accordingly
+
+            Menu menu = bottomNavigationView.getMenu();
+            //call the select fragment method
+            selectFragment(menu.getItem(0));
+
+            //set the action to perform when any item is clicked
+            bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    //Write the code to persom some actions
+                    selectFragment(item);
+                    return false;
+                }
+            });
+        }
+    }
+
+    protected void selectFragment(MenuItem item){
+        item.setChecked(true);
+
+        switch (item.getItemId()){
+            case R.id.to_home:
+                //action to perform when the home menu item is selected
+                pushFragment(new HomeFragment());
+                break;
+            case R.id.to_profile:
+                pushFragment(new ProfileFragment());
+                break;
+        }
+    }
+
+    protected void pushFragment(Fragment fragment){
+        if (fragment == null){
+            return;
+        }
+        FragmentManager fragmentManager = getFragmentManager();
+        if (fragmentManager != null){
+            FragmentTransaction ft = fragmentManager.beginTransaction();
+            if (ft != null){
+                ft.replace(R.id.rootLayout, fragment);
+                ft.commit();
+            }
+        }
     }
 
     @Override
@@ -215,10 +187,7 @@ public class QuovieMainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_manage) {
-            // Handle the camera action
-            Context context = QuovieMainActivity.this;
-            Intent i = new Intent(context, ProfileActivity.class);
-            startActivity(i);
+            pushFragment(new ProfileFragment());
 
         } else if (id == R.id.nav_logout) {
             //log the USer out
@@ -232,20 +201,6 @@ public class QuovieMainActivity extends AppCompatActivity
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    private void setSingleEvent(GridLayout gridLayout) {
-        //loop all of the children in the gridlayout
-        for (int i = 0; i < gridLayout.getChildCount(); i++) {
-            final CardView cardView = (CardView) gridLayout.getChildAt(i);
-            cardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //TODO create an if-else or switch statement that will send diffrent intent data for each topic
-                    Toast.makeText(QuovieMainActivity.this, "Clicked at index", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
     }
 
     //The data base references for each of the topics

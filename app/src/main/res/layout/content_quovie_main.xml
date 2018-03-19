@@ -9,4 +9,15 @@
     tools:context="com.ebookfrenzy.quovie.QuovieMainActivity"
     tools:showIn="@layout/app_bar_quovie_main">
 
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_weight="0"
+        android:layout_alignParentBottom="true"
+        app:itemBackground="@color/primary_material_dark_1"
+        app:itemIconTint="@drawable/nav_item_color"
+        app:itemTextColor="@drawable/nav_item_color"
+        app:menu="@menu/bottom_navigation_menu" />
+
 </RelativeLayout>

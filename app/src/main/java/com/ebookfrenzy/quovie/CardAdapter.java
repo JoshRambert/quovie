@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.support.design.widget.Snackbar;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -37,20 +38,21 @@ import java.util.List;
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     //create the request Code for the Intent Object
     private static final int request_code = 5;
+    public Context context;
 
     //Create the variables that will be used for saving the data
-    String userID = LoginActivity.mPassword;
+    FirebaseAuth mAuth;
 
     List<ListItem> items;
 
-    public CardAdapter(String[] webSite, String[] titles, String[] urls, Bitmap[] images, String[] Content, String[] author) {
+    public CardAdapter(Context context, String[] webSite, String[] titles, String[] urls, String[] Content, String[] author) {
         super();
+        this.context = context;
         items = new ArrayList<ListItem>();
         for (int i = 0; i < titles.length; i++) {
             ListItem item = new ListItem();
             item.setTitle(titles[i]);
             item.setUrl(urls[i]);
-            item.setImage(images[i]);
             item.setContent(Content[i]);
             item.setWebSite(webSite[i]);
             item.setAuthor(author[i]);
@@ -65,6 +67,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_layout, parent, false);
         ViewHolder viewHolder = new ViewHolder(v);
 
+        mAuth = FirebaseAuth.getInstance();
+
         return viewHolder;
     }
 
@@ -73,6 +77,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         //this is the information from the API that is displayed within the
         //the card layout
         ListItem list = items.get(position);
+        //change the image part to utilize glide then get rid of the Bitmaps class
+        Glide.with(context).load(list.getUrl()).into(holder.imageView);
         holder.imageView.setImageBitmap(list.getImage());
         holder.textViewTitle.setText(list.getTitle());
         holder.textViewWebSite.setText(list.getWebsite());
@@ -135,18 +141,11 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
         DatabaseReference mUsers = mRootRef.child("Users");
 
-        String validDatabaseRef = ".#$[]";
-        char[] ca = validDatabaseRef.toCharArray();
-        public void filterChar(char[] ca){
-            for (char c : ca){
-                userID = userID.replace(""+c, "");
-            }
-        }
-
         //TODO --  make the logic for the function that will save the news article
         private void saveInfo(){
-            filterChar(ca);
             UserArticlesList userArticles = new UserArticlesList();
+            String userID = mAuth.getUid();
+
 
             DatabaseReference mUserId = mUsers.child(userID);
             DatabaseReference mUserArticles = mUserId.child("Articles");

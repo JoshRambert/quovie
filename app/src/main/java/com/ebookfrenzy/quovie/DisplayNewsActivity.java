@@ -83,7 +83,6 @@ public class DisplayNewsActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         mAuth.getCurrentUser();
-
     }
 
     @Override
@@ -118,8 +117,11 @@ public class DisplayNewsActivity extends AppCompatActivity {
     }
 
     public void showData(){
-        NewsAdapter = new CardAdapter(ConfigClass1.dbWebsite, ConfigClass1.dbTitles, ConfigClass1.dbUrlImages, ConfigClass1.newsBitmaps, ConfigClass1.dbContent, ConfigClass1.dbAuthors);
+        progressBar.setVisibility(View.VISIBLE);
+        NewsAdapter = new CardAdapter(DisplayNewsActivity.this, ConfigClass1.dbWebsite, ConfigClass1.dbTitles, ConfigClass1.dbUrlImages, ConfigClass1.dbContent, ConfigClass1.dbAuthors);
+        NewsAdapter.notifyDataSetChanged();
         NewsRecyclerView.setAdapter(NewsAdapter);
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
 
@@ -195,8 +197,7 @@ public class DisplayNewsActivity extends AppCompatActivity {
                 String[] mUrls = urls.toArray(new String[urls.size()]);
                 ConfigClass1.dbUrlImages = mUrls.clone();
 
-                GetBitmap gb = new GetBitmap(DisplayNewsActivity.this, DisplayNewsActivity.this, ConfigClass1.dbUrlImages, progressBar);
-                gb.execute();
+                showData();
             }
 
             @Override
