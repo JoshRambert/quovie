@@ -117,11 +117,10 @@ public class DisplayNewsActivity extends AppCompatActivity {
     }
 
     public void showData(){
-        progressBar.setVisibility(View.VISIBLE);
         NewsAdapter = new CardAdapter(DisplayNewsActivity.this, ConfigClass1.dbWebsite, ConfigClass1.dbTitles, ConfigClass1.dbUrlImages, ConfigClass1.dbContent, ConfigClass1.dbAuthors);
         NewsAdapter.notifyDataSetChanged();
         NewsRecyclerView.setAdapter(NewsAdapter);
-        progressBar.setVisibility(View.INVISIBLE);
+
     }
 
 

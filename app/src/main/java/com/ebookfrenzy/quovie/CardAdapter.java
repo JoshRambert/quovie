@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +40,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     //create the request Code for the Intent Object
     private static final int request_code = 5;
     public Context context;
+    public Glide glide;
+    public ListItem list;
 
     //Create the variables that will be used for saving the data
     FirebaseAuth mAuth;
@@ -76,14 +79,30 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         //this is the information from the API that is displayed within the
         //the card layout
-        ListItem list = items.get(position);
+        list = items.get(position);
         //change the image part to utilize glide then get rid of the Bitmaps class
-        Glide.with(context).load(list.getUrl()).into(holder.imageView);
+        holder.imageView.setVisibility(View.VISIBLE);
+        glide.with(context)
+                .load(list.getUrl())
+                .into(holder.imageView);
         holder.imageView.setImageBitmap(list.getImage());
         holder.textViewTitle.setText(list.getTitle());
         holder.textViewWebSite.setText(list.getWebsite());
         holder.textViewContent.setText(list.getContent());
         holder.textViewAuthor.setText(list.getAuthor());
+
+        glide.with(context).clear(holder.imageView);
+
+        Glide.with(context)
+                .load(list.getUrl())
+                .into(holder.imageView);
+
+    }
+
+    @Override
+    public void onViewRecycled(@NonNull ViewHolder holder) {
+        super.onViewRecycled(holder);
+
     }
 
     @Override
