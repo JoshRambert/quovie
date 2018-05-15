@@ -40,7 +40,7 @@
 
             android:layout_marginLeft="40dp"
             android:layout_marginRight="15dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="5dp"
             android:id="@+id/contentView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,6 +58,19 @@
             android:layout_alignTop="@+id/contentView"
             android:layout_marginTop="23dp"
             android:text="url" />
+
+        <Button
+            android:id="@+id/deleteButton"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="40sp"
+            android:layout_below="@+id/contentView"
+            android:layout_toEndOf="@+id/textUrl"
+            android:text="Delete"
+            android:textAlignment="textStart"
+            android:textColor="@color/accent_material_dark"
+            android:textSize="12sp"
+            android:textStyle="italic" />
 
 
     </RelativeLayout>

@@ -120,6 +120,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         public TextView textViewContent;
         public TextView textViewAuthor;
         public Button saveButton;
+        public Button shareButton;
 
         public ViewHolder(View itemView){
             super(itemView);
@@ -131,11 +132,19 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             textViewWebSite = (TextView)itemView.findViewById(R.id.webSiteView);
             textViewAuthor = (TextView)itemView.findViewById(R.id.author);
             saveButton = (Button)itemView.findViewById(R.id.saveButton);
+            shareButton = (Button)itemView.findViewById(R.id.shareButton);
 
             saveButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     saveInfo();
+                }
+            });
+
+            shareButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    shareArticle();
                 }
             });
 
@@ -179,6 +188,15 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             userArticles.setWebste(website);
 
             mUserArticles.push().setValue(userArticles);
+        }
+
+        private void shareArticle(){
+            String sharedArticle = textViewWebSite.getText().toString();
+            Intent share = new Intent(Intent.ACTION_SEND);
+            share.setType("text/plain");
+            share.putExtra(Intent.EXTRA_TEXT, sharedArticle);
+
+            (context).startActivity(Intent.createChooser(share, "Check out this article!"));
         }
     }
 }

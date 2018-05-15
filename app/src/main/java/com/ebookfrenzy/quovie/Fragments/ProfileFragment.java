@@ -9,14 +9,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v7.widget.Toolbar;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ebookfrenzy.quovie.R;
 import com.ebookfrenzy.quovie.UserArticlesList;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -61,6 +66,7 @@ public class ProfileFragment extends Fragment {
         final ListView listArticles = (ListView)view.findViewById(R.id.profileListView);
         listArticles.setAdapter(mUserArticlesAdapter);
 
+        mUserArticlesAdapter.notifyDataSetChanged();
         return view;
     }
 
@@ -84,29 +90,34 @@ public class ProfileFragment extends Fragment {
     }
 
     public static ArrayList<UserArticlesList> articlesLists = new ArrayList<UserArticlesList>();
+    public static ArrayList<DataSnapshot> dbUserArticlesList = new ArrayList<DataSnapshot>();
+
 
     //Create the public class for the adapter
-    public class UserArticlesAdapter extends BaseAdapter{
+    public class UserArticlesAdapter extends BaseAdapter {
         public TextView titleTxt;
         public TextView contentTxt;
         public TextView UrlTxt;
+        public Button deleteButton;
 
         //Also create the database reference that will read from the list of news
         DatabaseReference mCurrentUser = mUsersRef.child(mUserId);
         DatabaseReference mUserArticles = mCurrentUser.child("Articles");
 
-        public UserArticlesAdapter(){
+        public UserArticlesAdapter() {
             super();
-            //get the articles from the databse
+            //get the articles from the database
             mUserArticles.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     articlesLists.clear();
+                    dbUserArticlesList.clear();
                     UserArticlesList userArticles = null;
-                    for (DataSnapshot articles : dataSnapshot.getChildren()){
+                    for (DataSnapshot articles : dataSnapshot.getChildren()) {
                         userArticles = articles.getValue(UserArticlesList.class);
-                        mUserArticlesAdapter.notifyDataSetChanged();
                         articlesLists.add(userArticles);
+                        dbUserArticlesList.add(articles);
+                        mUserArticlesAdapter.notifyDataSetChanged();
                     }
                 }
 
@@ -119,6 +130,7 @@ public class ProfileFragment extends Fragment {
 
         @Override
         public int getCount() {
+            //Change this to the size of the data within firebase
             return articlesLists.size();
         }
 
@@ -129,22 +141,23 @@ public class ProfileFragment extends Fragment {
 
         @Override
         public long getItemId(int i) {
-            return 0;
+            return i;
         }
 
         @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
+        public View getView(final int i, View view, ViewGroup viewGroup) {
             //Make sure that the view is visible
-            if (view == null){
+            if (view == null) {
                 //inflate the view
-                LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 view = inflater.inflate(R.layout.profile_list_view, viewGroup, false);
             }
 
             //Now get a reference to the title and the content views from within the layout
-            titleTxt = (TextView)view.findViewById(R.id.titleView);
-            contentTxt = (TextView)view.findViewById(R.id.contentView);
-            UrlTxt = (TextView)view.findViewById(R.id.textUrl);
+            titleTxt = (TextView) view.findViewById(R.id.titleView);
+            contentTxt = (TextView) view.findViewById(R.id.contentView);
+            UrlTxt = (TextView) view.findViewById(R.id.textUrl);
+            deleteButton = (Button) view.findViewById(R.id.deleteButton);
 
             UserArticlesList userArticles = articlesLists.get(i);
 
@@ -152,7 +165,26 @@ public class ProfileFragment extends Fragment {
             contentTxt.setText(userArticles.getContent());
             UrlTxt.setText(userArticles.getWebsite());
 
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    deleteNote(i);
+                }
+            });
             return view;
+        }
+
+        //Create the method that will delete the note from the list
+        public void deleteNote(int i){
+            articlesLists.remove(i);
+            mUserArticles.child(dbUserArticlesList.get(i).getKey()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    //Make a toast stating that it was successfully deleted
+                    Toast.makeText(getActivity(), "Successfully deleted article", Toast.LENGTH_SHORT).show();
+                }
+            });
+            notifyDataSetChanged();
         }
     }
 }
